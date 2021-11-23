@@ -71,4 +71,8 @@ public class DiscordBot {
         list.add(new ExitCommand());
         return list;
     }
+
+    public Guild getGuild() {
+        return guild;
+    }
 }
