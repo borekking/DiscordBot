@@ -23,4 +23,8 @@ public class Main {
             System.exit(0);
         }
     }
+
+    public static DiscordBot getDiscordBot() {
+        return discordBot;
+    }
 }
