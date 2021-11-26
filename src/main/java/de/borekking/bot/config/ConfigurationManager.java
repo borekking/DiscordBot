@@ -34,18 +34,33 @@ public class ConfigurationManager {
         JSONObject config = new JSONObject();
         for (ConfigSetting setting : ConfigSetting.values()) {
             String key = setting.getKey();
-            Object value = setting.getValue();
+            System.out.println(key);
 
             if (inputConfig != null && inputConfig.containsKey(key)) {
-                Object v = inputConfig.get(key);
-                config.put(key, v);
-                setting.setValue(v);
+                Object value = inputConfig.get(key);
+                config.put(key, value);
+                setting.setValue(value);
             } else {
+                Object value = setting.getValue();
+
+                if (value == null) {
+                    value = exceptions(key);
+                    setting.setValue(value);
+                }
                 config.put(key, value);
             }
         }
 
         this.write(config);
+    }
+
+    // Will be rewritten (no time rn)
+    private Object exceptions(String key) {
+        switch (key) {
+
+        }
+
+        return null;
     }
 
     private void write(JSONObject object) {
