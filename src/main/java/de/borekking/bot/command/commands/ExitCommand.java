@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import java.sql.SQLException;
-
 public class ExitCommand extends Command {
 
     public ExitCommand() {
@@ -18,7 +16,7 @@ public class ExitCommand extends Command {
 
     @Override
     public void perform(SlashCommandEvent event) {
+        event.replyEmbeds(new MyEmbedBuilder().title("Disabled bot").build()).complete();
         Main.getDiscordBot().disableBot();
-        event.replyEmbeds(new MyEmbedBuilder().title("Disabled bot").build()).queue();
     }
 }

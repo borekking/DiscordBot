@@ -2,26 +2,25 @@ package de.borekking.bot;
 
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.ExitCommand;
-import de.borekking.bot.listener.JoinListener;
-
+import de.borekking.bot.listener.SlashCommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DiscordBot {
 
+    private final JDABuilder builder;
     private final JDA jda;
     private final Guild guild;
     private final List<Command> commandList;
@@ -29,23 +28,25 @@ public class DiscordBot {
     public DiscordBot(String token, String guildID, Activity activity) throws LoginException {
         this.commandList = commandList();
 
-        JDABuilder builder = JDABuilder.createLight(token);
-        builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(activity);
+        this.builder = JDABuilder.createLight(token);
+        this.builder.setStatus(OnlineStatus.ONLINE);
+        this.builder.setActivity(activity);
 
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
-        builder.setChunkingFilter(ChunkingFilter.ALL);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        this.builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+        this.builder.setChunkingFilter(ChunkingFilter.ALL);
+        this.builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-        this.jda = builder.build();
+        this.registerListeners();
 
-        this.registerCommands(this.jda.updateCommands());
+        this.jda = this.builder.build();
 
         try {
             this.jda.awaitReady();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        this.registerCommands(this.jda.updateCommands());
 
         this.guild = this.jda.getGuildById(guildID);
     }
@@ -62,8 +63,18 @@ public class DiscordBot {
         }
     }
 
+    private void registerListeners() {
+        this.registerEvent(new SlashCommandListener());
+    }
+
+    private void registerEvent(ListenerAdapter e) {
+        this.builder.addEventListeners(e);
+    }
+
     private void registerCommands(CommandListUpdateAction commands) {
-        commands.addCommands(this.commandList.stream().map(Command::getCommandData).collect(Collectors.toList())).complete();
+        for (Command command : this.commandList)
+            commands.addCommands(command.getCommandData()).queue();
+        commands.queue();
     }
 
     private List<Command> commandList() {
