@@ -2,6 +2,7 @@ package de.borekking.bot;
 
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.ExitCommand;
+import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.SlashCommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -65,6 +66,7 @@ public class DiscordBot {
 
     private void registerListeners() {
         this.registerEvent(new SlashCommandListener());
+        this.registerEvent(new JoinListener());
     }
 
     private void registerEvent(ListenerAdapter e) {

@@ -56,7 +56,13 @@ public class ConfigurationManager {
     // Will be rewritten (no time rn)
     private Object exceptions(String key) {
         switch (key) {
-
+            case "joinInformation":
+                JSONObject object = new JSONObject();
+                object.put("enabled", true);
+                object.put("text", "Welcome to **%servername%**, %user%!\nYou are the %memberCount%. member!");
+                object.put("title", "Welcome!");
+                object.put("channelID", "");
+                return object;
         }
 
         return null;

@@ -5,7 +5,8 @@ import org.json.simple.JSONObject;
 public enum ConfigSetting {
 
     TOKEN(new ConfigPart("token", "")),
-    GUILD_ID(new ConfigPart("guildID", ""));
+    GUILD_ID(new ConfigPart("guildID", "")),
+    JOIN_MESSAGE(new ConfigPart("joinInformation", null));
 
     private ConfigPart part;
 
