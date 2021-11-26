@@ -34,7 +34,6 @@ public class ConfigurationManager {
         JSONObject config = new JSONObject();
         for (ConfigSetting setting : ConfigSetting.values()) {
             String key = setting.getKey();
-            System.out.println(key);
 
             if (inputConfig != null && inputConfig.containsKey(key)) {
                 Object value = inputConfig.get(key);
