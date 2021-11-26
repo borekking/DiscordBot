@@ -1,37 +1,35 @@
 package de.borekking.bot.config;
 
-import java.util.function.Function;
+import org.json.simple.JSONObject;
 
 public enum ConfigSetting {
 
-    TOKEN("token", ""),
-    GUILD_ID("guildID", "");
+    TOKEN(new ConfigPart("token", "")),
+    GUILD_ID(new ConfigPart("guildID", ""));
 
-    private String key;
-    private Object value;
+    private ConfigPart part;
 
-    ConfigSetting(String key, Object value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    private <T> T wrapper(Function<Object, T> f) {
-        return f.apply(this.value);
+    ConfigSetting(ConfigPart part) {
+        this.part = part;
     }
 
     public String getValueAsString() {
-        return this.wrapper(String::valueOf);
+        return this.part.getValue(String::valueOf);
+    }
+
+    public JSONObject getValueAsJSONObject() {
+        return this.part.getValue(o -> (JSONObject) o);
     }
 
     public String getKey() {
-        return key;
+        return this.part.getKey();
     }
 
     public Object getValue() {
-        return value;
+        return this.part.getValue();
     }
 
     public void setValue(Object value) {
-        this.value = value;
+        this.part.setValue(value);
     }
 }
