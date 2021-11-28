@@ -9,6 +9,20 @@ import java.util.Map;
 
 public class MyEmbedBuilder {
 
+    /*
+     * Has:
+     * - fields: one, map
+     * - description: set, append
+     * - color
+     * - title: title, url
+     * - timestamp
+     * - thumbnail
+     * - author: name, url, iconUrl (String x3)
+     * - footer: text, iconUrl
+     * - image
+     *
+     */
+
     private final EmbedBuilder embed;
 
     public MyEmbedBuilder() {
@@ -27,6 +41,11 @@ public class MyEmbedBuilder {
 
     public MyEmbedBuilder description(String description) {
         this.embed.setDescription(description);
+        return this;
+    }
+
+    public MyEmbedBuilder appendDescription(String description) {
+        this.embed.appendDescription(description);
         return this;
     }
 
@@ -60,13 +79,38 @@ public class MyEmbedBuilder {
         return this;
     }
 
+    public MyEmbedBuilder author(String name, String url) {
+        this.embed.setAuthor(name, url);
+        return this;
+    }
+
+    public MyEmbedBuilder author(String name, String url, String iconUrl) {
+        this.embed.setAuthor(name, url, iconUrl);
+        return this;
+    }
+
     public MyEmbedBuilder footer(String footer) {
         this.embed.setFooter(footer);
         return this;
     }
 
+    public MyEmbedBuilder footer(String text, String iconUrl) {
+        this.embed.setFooter(text, iconUrl);
+        return this;
+    }
+
     public MyEmbedBuilder image(String image) {
         this.embed.setImage(image);
+        return this;
+    }
+
+    public MyEmbedBuilder addBlankField(boolean inline) {
+        this.embed.addBlankField(inline);
+        return this;
+    }
+
+    public MyEmbedBuilder clearFields() {
+        this.embed.clearFields();
         return this;
     }
 
