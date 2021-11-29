@@ -8,6 +8,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class MyEmbedBuilder implements Replaceable {
 
@@ -23,7 +25,7 @@ public class MyEmbedBuilder implements Replaceable {
     // color
     private int color;
     // title
-    private String title, url;
+    private String title, titleUrl;
     // timestamp
     private OffsetDateTime timestamp;
     // author
@@ -48,7 +50,7 @@ public class MyEmbedBuilder implements Replaceable {
         this.description = embed.getDescription();
         this.color = embed.getColorRaw();
         this.title = embed.getTitle();
-        this.url = embed.getUrl();
+        this.titleUrl = embed.getUrl();
         this.timestamp = embed.getTimestamp();
         this.author = embed.getAuthor();
         this.footer = embed.getFooter();
@@ -56,6 +58,7 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     public MyEmbedBuilder field(String name, String value, boolean inline) {
+        if (Checker.isEmpty(name) && Checker.isEmpty(value)) return this;
         this.fields.add(new MessageEmbed.Field(name, value, inline));
         return this.changed();
     }
@@ -66,66 +69,59 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     public MyEmbedBuilder description(String description) {
-        this.description = description;
-        return this.changed();
+        return this.apply(s -> this.description = s, s -> !Checker.isEmpty(s) && !s.equals(this.description), description, false);
     }
 
     public MyEmbedBuilder appendDescription(String description) {
-        if (description != null)
-            this.description += description;
-        return this.changed();
+        return this.apply(s -> this.description += s, s -> !Checker.isEmpty(s), description, false);
     }
 
     public MyEmbedBuilder color(Color color) {
-        this.color = color.getRGB();
+        return this.apply(c -> this.color = c, c -> this.color != c, color.getRGB());
+    }
+
+    public MyEmbedBuilder title(String title, String url) {
+        if (Checker.isEmpty(title)) return this;
+        this.title = title;
+        if (!Checker.isEmpty(url))
+            this.titleUrl = url;
         return this.changed();
     }
 
     public MyEmbedBuilder title(String title) {
-        this.title = title;
-        return this.changed();
-    }
-
-    public MyEmbedBuilder url(String url) {
-        this.url = url;
-        return this.changed();
+        return this.title(title, null);
     }
 
     public MyEmbedBuilder timestamp(OffsetDateTime timestamp) {
-        this.timestamp = timestamp;
-        return this.changed();
+        return this.apply(t -> this.timestamp = t, t -> this.timestamp == null || !this.timestamp.equals(t), timestamp);
     }
 
     public MyEmbedBuilder thumbnail(String url) {
-        this.thumbnail = new MessageEmbed.Thumbnail(url, null, 0, 0);
-        return this.changed();
+        return this.apply(u -> this.thumbnail = new MessageEmbed.Thumbnail(u, null, 0, 0), u -> this.thumbnail == null || !u.equals(this.thumbnail.getUrl()), url);
     }
 
-    public MyEmbedBuilder author(String name) {
-        return this.author(name, null, null);
+    public MyEmbedBuilder author(String name, String url, String iconUrl) {
+        return this.apply(s -> this.author = new MessageEmbed.AuthorInfo(s, url, iconUrl, null), s -> !Checker.isEmpty(s), name, false);
     }
 
     public MyEmbedBuilder author(String name, String url) {
         return this.author(name, url, null);
     }
 
-    public MyEmbedBuilder author(String name, String url, String iconUrl) {
-        this.author = new MessageEmbed.AuthorInfo(name, url, iconUrl, null);
-        return this.changed();
+    public MyEmbedBuilder author(String name) {
+        return this.author(name, null, null);
+    }
+
+    public MyEmbedBuilder footer(String text, String iconUrl) {
+        return this.apply(s -> this.footer = new MessageEmbed.Footer(s, iconUrl, null), s -> !Checker.isEmpty(s), text, false);
     }
 
     public MyEmbedBuilder footer(String text) {
         return this.footer(text, null);
     }
 
-    public MyEmbedBuilder footer(String text, String iconUrl) {
-        this.footer = new MessageEmbed.Footer(text, iconUrl, null);
-        return this.changed();
-    }
-
-    public MyEmbedBuilder image(String image) {
-        this.image = new MessageEmbed.ImageInfo(image, null, 0, 0);
-        return this.changed();
+    public MyEmbedBuilder image(String url) {
+        return this.apply(u -> this.image = new MessageEmbed.ImageInfo(u, null, 0, 0), u -> !Checker.isEmpty(u), url, false);
     }
 
     public MyEmbedBuilder addBlankField(boolean inline) {
@@ -133,8 +129,7 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     public MyEmbedBuilder clearFields() {
-        this.fields.clear();
-        return this.changed();
+        return apply(this.fields::clear, !this.fields.isEmpty());
     }
 
     @Override
@@ -142,24 +137,24 @@ public class MyEmbedBuilder implements Replaceable {
         // Fields (name, value)
         List<MessageEmbed.Field> fields1 = new ArrayList<>();
         this.fields.forEach(field ->
-            fields1.add(new MessageEmbed.Field(replace(field.getName(), regex, value), replace(field.getValue(), regex, value), field.isInline()))
+            fields1.add(new MessageEmbed.Field(JavaUtils.replace(field.getName(), regex, value), JavaUtils.replace(field.getValue(), regex, value), field.isInline()))
         );
         this.fields.clear();
         this.fields.addAll(fields1);
 
         // Description
-        this.description = replace(this.description, regex, value);
+        this.description = JavaUtils.replace(this.description, regex, value);
 
         // Title
-        this.title = replace(this.title, regex, value);
+        this.title = JavaUtils.replace(this.title, regex, value);
 
         // Author (name)
         if (this.author != null)
-            this.author = new MessageEmbed.AuthorInfo(replace(this.author.getName(), regex, value), this.author.getUrl(), this.author.getIconUrl(), null);
+            this.author = new MessageEmbed.AuthorInfo(JavaUtils.replace(this.author.getName(), regex, value), this.author.getUrl(), this.author.getIconUrl(), null);
 
         // Footer (text)
         if (this.footer != null)
-            this.footer = new MessageEmbed.Footer(replace(this.footer.getText(), regex, value), this.footer.getIconUrl(), null);
+            this.footer = new MessageEmbed.Footer(JavaUtils.replace(this.footer.getText(), regex, value), this.footer.getIconUrl(), null);
     }
 
     @Override
@@ -167,24 +162,24 @@ public class MyEmbedBuilder implements Replaceable {
         // Fields (name, value)
         List<MessageEmbed.Field> fields1 = new ArrayList<>();
         this.fields.forEach(field ->
-                fields1.add(new MessageEmbed.Field(replaceAll(field.getName(), map), replaceAll(field.getValue(), map), field.isInline()))
+                fields1.add(new MessageEmbed.Field(JavaUtils.replaceAll(field.getName(), map), JavaUtils.replaceAll(field.getValue(), map), field.isInline()))
         );
         this.fields.clear();
         this.fields.addAll(fields1);
 
         // Description
-        this.description = replaceAll(this.description, map);
+        this.description = JavaUtils.replaceAll(this.description, map);
 
         // Title
-        this.title = replaceAll(this.title, map);
+        this.title = JavaUtils.replaceAll(this.title, map);
 
         // Author (name)
         if (this.author != null)
-            this.author = new MessageEmbed.AuthorInfo(replaceAll(this.author.getName(), map), this.author.getUrl(), this.author.getIconUrl(), null);
+            this.author = new MessageEmbed.AuthorInfo(JavaUtils.replaceAll(this.author.getName(), map), this.author.getUrl(), this.author.getIconUrl(), null);
 
         // Footer (text)
         if (this.footer != null)
-            this.footer = new MessageEmbed.Footer(replaceAll(this.footer.getText(), map), this.footer.getIconUrl(), null);
+            this.footer = new MessageEmbed.Footer(JavaUtils.replaceAll(this.footer.getText(), map), this.footer.getIconUrl(), null);
     }
 
     public MessageEmbed build() {
@@ -203,10 +198,10 @@ public class MyEmbedBuilder implements Replaceable {
         builder.setColor(this.color);
 
         // title
-        if (this.title == null && this.url != null)
-            builder.setTitle("", this.url);
+        if (this.title == null || this.title.isEmpty() && this.titleUrl != null)
+            builder.setTitle(" ", this.titleUrl);
         else
-            builder.setTitle(this.title, this.url);
+            builder.setTitle(this.title, this.titleUrl);
 
         // timestamp
         builder.setTimestamp(this.timestamp);
@@ -225,8 +220,9 @@ public class MyEmbedBuilder implements Replaceable {
 
         // thumbnail
         if (this.thumbnail != null)
-            builder.setImage(this.thumbnail.getUrl());
+            builder.setThumbnail(this.thumbnail.getUrl());
 
+        this.change = false;
         return this.embed = builder.build();
     }
 
@@ -236,18 +232,30 @@ public class MyEmbedBuilder implements Replaceable {
         return this;
     }
 
-    private String replace(String str, String regex, Object value) {
-        if (str == null || regex == null || value == null) return "";
+    private MyEmbedBuilder apply(Runnable r, boolean condition) {
+        if (condition) {
+            r.run();
+            return this.changed();
+        }
 
-        return str.replaceAll(regex, String.valueOf(value));
+        return this;
     }
 
-    private String replaceAll(String str, Map<String, Object> map) {
-        if (str == null) return "";
+    private <T> MyEmbedBuilder apply(Consumer<T> c, Predicate<T> condition, T t, boolean nullCheck) {
+        if ((!nullCheck || !Checker.isNull(t)) && condition.test(t)) {
+            c.accept(t);
+            return this.changed();
+        }
 
-        for (String key : map.keySet())
-            str = this.replace(str, key, map.get(key));
-        return str;
+        return this;
+    }
+
+    private <T> MyEmbedBuilder apply(Consumer<T> c, Predicate<T> p, T t) {
+        return this.apply(c, p, t, true);
+    }
+
+    private <T> MyEmbedBuilder apply(Consumer<T> c, T t) {
+        return this.apply(c, o -> true, t);
     }
 
     private boolean isEmpty() {
