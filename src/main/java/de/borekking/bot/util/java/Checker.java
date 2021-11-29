@@ -1,4 +1,4 @@
-package de.borekking.bot.util;
+package de.borekking.bot.util.java;
 
 public class Checker {
 

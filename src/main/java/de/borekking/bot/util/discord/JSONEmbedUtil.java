@@ -1,4 +1,4 @@
-package de.borekking.bot.util;
+package de.borekking.bot.util.discord;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.json.simple.JSONArray;

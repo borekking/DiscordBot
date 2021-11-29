@@ -2,7 +2,7 @@ package de.borekking.bot.command.commands;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
-import de.borekking.bot.util.MyEmbedBuilder;
+import de.borekking.bot.util.discord.MyEmbedBuilder;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;

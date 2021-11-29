@@ -1,5 +1,8 @@
-package de.borekking.bot.util;
+package de.borekking.bot.util.discord;
 
+import de.borekking.bot.util.Replaceable;
+import de.borekking.bot.util.java.Checker;
+import de.borekking.bot.util.java.JavaUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
