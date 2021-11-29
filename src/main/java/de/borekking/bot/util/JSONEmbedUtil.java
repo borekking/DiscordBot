@@ -12,16 +12,54 @@ public class JSONEmbedUtil {
     /*
      * JSONObject structure
      *
-     * "fields": JSONArray of JSONObjects with "name":String, "value":String, "inline":boolean
-     * "description": description:String
      * "color":int
-     * "title":String
-     * "url":String
-     * "timestamp":OffsetDateTime (?)
-     * "author": JSONObjects with "name":String, "url":String, "iconUrl":String
-     * "footer": JSONObjects with "text":String, "iconUrl":String
+     * "footer": JSONObject with "text":String, "iconUrl":String
+     * "author": JSONObject with "name":String, "url":String, "iconUrl":String
      * "imageURL":String
+     * "description":String
+     * "fields": JSONArray of JSONObjects with "name":String, "value":String, "inline":boolean
+     * "title": JSONObject with "title":String, "url":String
+     * "timestamp":boolean
+     * "thumbnailURL":String
      *
+     */
+
+    /*  JSON Example:
+           {
+              "color": -16711936,
+              "footer": {
+                "text": "footer text", // text at bottom
+                "iconUrl": "https://example/pic0.png" // Image/Icon (circle) left to text
+              },
+              "author": {
+                "iconUrl": "https://example/pic1.png", // Image/Icon (circle) left to name
+                "name": "borekking", // Name of author: Right at the top
+                "url": "https://youtube.com" // URL on clicking author-name
+              },
+              "imageURL": "https://example/pic2.png", // Big picture under fields, above footer
+              "description": "Welcome to **%servername%**, %user%!%nextLine%You are the %memberCount%. user. :D", // Directly under title
+              "fields": [ // List of fields: in middle embed
+                {
+                "name": "Field!"
+                "value": "This is a field"
+                "inline": true
+                }, // Separated by commas
+                {
+                "name": "Field 2!"
+                "value": "This is another field"
+                "inline": true
+                }
+              ],
+              "title": {
+                    "title": "Welcome!", // Actual title
+                    "url": "https://youtube.com" // URL on clicking author-name
+              },
+              "timestamp": true, // if timestamp on the right of footer is shown (time when message was sended)
+              "thumbnailURL": "https://example/pic3.png" // Image in right, upper corner
+           }
+
+            See also: https://b1naryth1ef.github.io/disco/bot_tutorial/message_embeds.html
+            Placeholder image: https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png
      */
 
     // static Methode to get MyEmbedBuilder from JSONObject
@@ -49,34 +87,42 @@ public class JSONEmbedUtil {
         long color = (long) object.get("color");
         builder.color(new Color((int) color));
 
-        // Title (URL)
-        String title = (String) object.get("title");
-        String url = (String) object.get("url");
-        if (url != null)
-            builder.url(url);
-        else
-            builder.title(title);
+        // Title
+        JSONObject titleObject = (JSONObject) object.get("title");
+        String title = (String) titleObject.get("title");
+        String url = (String) titleObject.get("url");
+
+        builder.title(title, url);
 
         // Timestamp
-        OffsetDateTime timestamp = (OffsetDateTime) object.get("timestamp");
-        builder.timestamp(timestamp);
+        boolean timestamp = (boolean) object.get("timestamp");
+        if (timestamp)
+            builder.timestamp(OffsetDateTime.now());
 
         // Author
         JSONObject authorObject = (JSONObject) object.get("author");
+
         String authorName = (String) authorObject.get("name");
         String authorURL = (String) authorObject.get("url");
         String authorIconUrl = (String) authorObject.get("iconUrl");
+
         builder.author(authorName, authorURL, authorIconUrl);
 
         // Footer
         JSONObject footerObject = (JSONObject) object.get("footer");
+
         String footerText = (String) footerObject.get("text");
         String footerIconUrl = (String) footerObject.get("iconUrl");
+
         builder.footer(footerText, footerIconUrl);
 
         // Image
         String imageURL = (String) object.get("imageURL");
         builder.image(imageURL);
+
+        // thumbnail
+        String thumbnailURL = (String) object.get("thumbnailURL");
+        builder.thumbnail(thumbnailURL);
 
         return builder;
     }
@@ -105,13 +151,14 @@ public class JSONEmbedUtil {
         object.put("color", embed.getColorRaw());
 
         // Title
-        object.put("title", embed.getTitle());
+        JSONObject titleObject = new JSONObject();
+        titleObject.put("title", embed.getTitle());
+        titleObject.put("url", embed.getUrl());
 
-        // URL
-        object.put("url", embed.getUrl());
+        object.put("title", titleObject);
 
         // Timestamp
-        object.put("timestamp", embed.getTimestamp());
+        object.put("timestamp", embed.getTimestamp() != null);
 
         // Author
         MessageEmbed.AuthorInfo author = embed.getAuthor();
@@ -135,6 +182,10 @@ public class JSONEmbedUtil {
         // Image
         MessageEmbed.ImageInfo image = embed.getImage();
         object.put("imageURL", (image != null) ? image.getUrl() : null);
+
+        // thumbnail
+        MessageEmbed.Thumbnail thumbnail = embed.getThumbnail();
+        object.put("thumbnailURL", (thumbnail != null) ? thumbnail.getUrl() : null);
 
         return object;
     }
