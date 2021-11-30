@@ -32,28 +32,28 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 - Write in with commands (Header, Text)
 
 ### Baning
-- Command: !ban <user> (or slashcommand)
-- Confirmation: Configurable message (placeholder) in chat (specfic channel, or sender´s configurable)
+- Command: /ban <user>
+- Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Ban user from Server
 
 ### Muting
-- Command: !mute <user> <reason> <time> (or slashcommand)
-- Confirmation: Configurable message (placeholder) in chat (specfic channel, or sender´s configurable)
+- Command: /mute <user> <reason> <time>
+- Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Mute with a role
 -> Database, create role?
 
 ### Kicking
-- Command: !ban <user> (or slashcommand)
-- Confirmation: Configurable message (placeholder) in chat (specfic channel, or sender´s configurable)
+- Command: /ban <user>
+- Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Kick user from Server
 
 ### Warns
-- Command: !warn @User (Grund) (Zeit) (or slashcommand)
+- Command: /warn <user> <reason> <time>
 - Info to user per DM: Message configurable
 - 3 Warns = mute for configurable time
 - 5 Warns = kick
-- Confirmation: Configurable message (placeholder) in chat (specfic channel, or sender´s configurable)
+- Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 
 ### Giveaways
-- command: !giveaway (or slashcommand) -> questions? (channel, time what, winners amount) -> confirmation message -> giveaway into a channel
--> After time a winner (database -> table with infos, check by reaction?)
+- command: /giveaway -> questions: (channel, time what, winners amount) -> confirmation message -> giveaway into a channel
+-> After time a winner (database -> table with information, check by reaction?)
