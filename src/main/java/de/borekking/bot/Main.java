@@ -46,13 +46,12 @@ public class Main {
     }
 
     private static PlaceholderManager<Void> getGeneralPlaceholderManager() {
-        int memberCount = Main.getDiscordBot().getGuild().getMemberCount();
-
         PlaceholderManager<Void> manager = new PlaceholderManager<>();
-        manager.addPlaceholder(new GeneralPlaceholder("%nextLine%", "\n"));
-        manager.addPlaceholder(new GeneralPlaceholder("%memberCount%", String.valueOf(memberCount)));
-        manager.addPlaceholder(new GeneralPlaceholder("%servername%", discordBot.getGuild().getName()));
-        manager.addPlaceholder(new GeneralPlaceholder("%date%", Timestamp.SHORT_DATE.apply()));
+
+        manager.addPlaceholder(new GeneralPlaceholder("%nextLine%", () -> "\n"));
+        manager.addPlaceholder(new GeneralPlaceholder("%memberCount%", () -> String.valueOf(Main.getDiscordBot().getGuild().getMemberCount())));
+        manager.addPlaceholder(new GeneralPlaceholder("%servername%", () -> discordBot.getGuild().getName()));
+        manager.addPlaceholder(new GeneralPlaceholder("%date%", Timestamp.SHORT_DATE::apply));
 
         return manager;
     }

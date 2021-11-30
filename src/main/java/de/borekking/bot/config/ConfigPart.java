@@ -1,8 +1,7 @@
 package de.borekking.bot.config;
 
-import de.borekking.bot.util.java.ZeroFunction;
-
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ConfigPart {
 
@@ -14,9 +13,9 @@ public class ConfigPart {
         this.value = value;
     }
 
-    public <T> ConfigPart(String key, ZeroFunction<T> value) {
+    public <T> ConfigPart(String key, Supplier<T> value) {
         this.key = key;
-        this.value = value.apply();
+        this.value = value.get();
     }
 
     public  <T> T getValue(Function<Object, T> f) {
