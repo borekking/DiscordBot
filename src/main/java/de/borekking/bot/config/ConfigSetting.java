@@ -1,12 +1,23 @@
 package de.borekking.bot.config;
 
+import de.borekking.bot.util.discord.DefaultEmbeds;
+import de.borekking.bot.util.discord.JSONEmbedUtil;
 import org.json.simple.JSONObject;
 
 public enum ConfigSetting {
 
     TOKEN(new ConfigPart("token", "")),
     GUILD_ID(new ConfigPart("guildID", "")),
-    JOIN_MESSAGE(new ConfigPart("joinInformation", null));
+    JOIN_MESSAGE(new ConfigPart("joinInformation", () -> {
+        JSONObject embed = JSONEmbedUtil.toJSONObject(DefaultEmbeds.JOIN_EMBED.getEmbed());
+
+        JSONObject object = new JSONObject();
+        object.put("enabled", true);
+        object.put("channelID", "");
+        object.put("embed", embed);
+
+        return object;
+    }));
 
     private ConfigPart part;
 

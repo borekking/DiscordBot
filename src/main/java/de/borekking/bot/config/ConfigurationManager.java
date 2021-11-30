@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ConfigurationManager {
 
-    private File config;
+    private final File config;
     private boolean firstTime;
 
     public ConfigurationManager(String fileName) throws IOException, ParseException {
@@ -41,31 +41,11 @@ public class ConfigurationManager {
                 setting.setValue(value);
             } else {
                 Object value = setting.getValue();
-
-                if (value == null) {
-                    value = exceptions(key);
-                    setting.setValue(value);
-                }
                 config.put(key, value);
             }
         }
 
         this.write(config);
-    }
-
-    // Will be rewritten (no time rn)
-    private Object exceptions(String key) {
-        switch (key) {
-            case "joinInformation":
-                JSONObject object = new JSONObject();
-                object.put("enabled", true);
-                object.put("text", "Welcome to **%servername%**, %user%!\nYou are the %memberCount%. member!");
-                object.put("title", "Welcome!");
-                object.put("channelID", "");
-                return object;
-        }
-
-        return null;
     }
 
     private void write(JSONObject object) {
