@@ -1,12 +1,13 @@
 package de.borekking.bot.util.discord;
 
-import de.borekking.bot.util.Replaceable;
+import de.borekking.bot.util.placeholder.Replaceable;
 import de.borekking.bot.util.java.Checker;
-import de.borekking.bot.util.java.JavaUtils;
+import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-import java.awt.Color;
+import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,53 +137,53 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     @Override
-    public void replace(String regex, Object value) {
+    public void replace(PlaceholderTranslator translator) {
         // Fields (name, value)
         List<MessageEmbed.Field> fields1 = new ArrayList<>();
         this.fields.forEach(field ->
-            fields1.add(new MessageEmbed.Field(JavaUtils.replace(field.getName(), regex, value), JavaUtils.replace(field.getValue(), regex, value), field.isInline()))
+                fields1.add(new MessageEmbed.Field(translator.translate(field.getName()), translator.translate(field.getValue()), field.isInline()))
         );
         this.fields.clear();
         this.fields.addAll(fields1);
 
         // Description
-        this.description = JavaUtils.replace(this.description, regex, value);
+        this.description = translator.translate(this.description);
 
         // Title
-        this.title = JavaUtils.replace(this.title, regex, value);
+        this.title = translator.translate(this.title);
 
         // Author (name)
         if (this.author != null)
-            this.author = new MessageEmbed.AuthorInfo(JavaUtils.replace(this.author.getName(), regex, value), this.author.getUrl(), this.author.getIconUrl(), null);
+            this.author = new MessageEmbed.AuthorInfo(translator.translate(this.author.getName()), this.author.getUrl(), this.author.getIconUrl(), null);
 
         // Footer (text)
         if (this.footer != null)
-            this.footer = new MessageEmbed.Footer(JavaUtils.replace(this.footer.getText(), regex, value), this.footer.getIconUrl(), null);
+            this.footer = new MessageEmbed.Footer(translator.translate(this.footer.getText()), this.footer.getIconUrl(), null);
     }
 
     @Override
-    public void replace(Map<String, Object> map) {
+    public void replace(PlaceholderTranslator translator, Member member) {
         // Fields (name, value)
         List<MessageEmbed.Field> fields1 = new ArrayList<>();
         this.fields.forEach(field ->
-                fields1.add(new MessageEmbed.Field(JavaUtils.replaceAll(field.getName(), map), JavaUtils.replaceAll(field.getValue(), map), field.isInline()))
+                fields1.add(new MessageEmbed.Field(translator.translate(field.getName(), member), translator.translate(field.getValue(), member), field.isInline()))
         );
         this.fields.clear();
         this.fields.addAll(fields1);
 
         // Description
-        this.description = JavaUtils.replaceAll(this.description, map);
+        this.description = translator.translate(this.description, member);
 
         // Title
-        this.title = JavaUtils.replaceAll(this.title, map);
+        this.title = translator.translate(this.title, member);
 
         // Author (name)
         if (this.author != null)
-            this.author = new MessageEmbed.AuthorInfo(JavaUtils.replaceAll(this.author.getName(), map), this.author.getUrl(), this.author.getIconUrl(), null);
+            this.author = new MessageEmbed.AuthorInfo(translator.translate(this.author.getName(), member), this.author.getUrl(), this.author.getIconUrl(), null);
 
         // Footer (text)
         if (this.footer != null)
-            this.footer = new MessageEmbed.Footer(JavaUtils.replaceAll(this.footer.getText(), map), this.footer.getIconUrl(), null);
+            this.footer = new MessageEmbed.Footer(translator.translate(this.footer.getText(), member), this.footer.getIconUrl(), null);
     }
 
     public MessageEmbed build() {
