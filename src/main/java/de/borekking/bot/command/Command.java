@@ -9,7 +9,7 @@ public abstract class Command {
 
     private final String name, description;
     private final Permission[] permissions;
-    private OptionData[] options;
+    private final OptionData[] options;
 
     public Command(String name, String description, OptionData[] options, Permission... permissions) {
         this.name = name;

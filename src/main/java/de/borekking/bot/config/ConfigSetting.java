@@ -19,7 +19,7 @@ public enum ConfigSetting {
         return object;
     }));
 
-    private ConfigPart part;
+    private final ConfigPart part;
 
     ConfigSetting(ConfigPart part) {
         this.part = part;

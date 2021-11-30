@@ -9,7 +9,7 @@ public enum DefaultEmbeds {
     JOIN_EMBED(new MyEmbedBuilder().description("Welcome to **%servername%**, %user%!\nYou are the %memberCount%. member!").title("Welcome!").timestamp(OffsetDateTime.now())),
     EXIT_EMBED(new MyEmbedBuilder().title("Disabled bot"));
 
-    private MessageEmbed embed;
+    private final MessageEmbed embed;
 
     DefaultEmbeds(MyEmbedBuilder builder) {
         this.embed = builder.build();
