@@ -2,7 +2,8 @@ package de.borekking.bot.listener;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.config.ConfigSetting;
-import de.borekking.bot.util.MyEmbedBuilder;
+import de.borekking.bot.util.discord.JSONEmbedUtil;
+import de.borekking.bot.util.discord.MyEmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -10,14 +11,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.simple.JSONObject;
 
 public class JoinListener extends ListenerAdapter {
-
-    /*
-     * Adds following placeholders:
-     * - %user% user that joined
-     * - %memberCount% amount of members on Server
-     * - %servername% server's name
-     *
-     */
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
@@ -37,18 +30,10 @@ public class JoinListener extends ListenerAdapter {
         TextChannel channel = event.getGuild().getTextChannelById(channelID);
         if (channel == null) return;
 
-        String text = (String) jsonObject.get("text");
-        String header = (String) jsonObject.get("title");
-        header = this.translateMessage(header, member);
-        text = this.translateMessage(text, member);
+        JSONObject embed = (JSONObject) jsonObject.get("embed");
+        MyEmbedBuilder builder = JSONEmbedUtil.toMyEmbedBuilder(embed);
+        builder.replace(Main.getPlaceholderTranslator(), member);
 
-        channel.sendMessageEmbeds(new MyEmbedBuilder().title(header).description(text).build()).queue();
-    }
-
-    private String translateMessage(String str, Member member) {
-        int memberCount = Main.getDiscordBot().getGuild().getMemberCount();
-        return str.replaceAll("%user%", member.getAsMention())
-                .replaceAll("%memberCount%", String.valueOf(memberCount))
-                .replaceAll("%servername%", Main.getDiscordBot().getGuild().getName());
+        channel.sendMessageEmbeds(builder.build()).queue();
     }
 }
