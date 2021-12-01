@@ -43,7 +43,7 @@ public class EventInformation implements JSONAble {
 
         this.jsonObject.put("enabled", this.enabled);
         this.jsonObject.put("channelID", this.channelID);
-        this.jsonObject.put("embed", this.embed);
+        this.jsonObject.put("embed", JSONEmbedUtil.toJSONObject(this.embed.build()));
 
         return this.jsonObject;
     }
