@@ -10,7 +10,7 @@
 - [ ] Kicking
 - [ ] Warns
 - [ ] Giveaways
-- [ ] Reload Command
+- [x] Reload Command
 
 ## Prioritized Features in detail
 ### Ticket System:
