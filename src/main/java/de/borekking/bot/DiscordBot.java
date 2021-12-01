@@ -2,6 +2,7 @@ package de.borekking.bot;
 
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.ExitCommand;
+import de.borekking.bot.command.commands.ReloadCommand;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
 import de.borekking.bot.listener.SlashCommandListener;
@@ -61,7 +62,6 @@ public class DiscordBot {
         if (this.jda != null) {
             this.jda.getPresence().setStatus(OnlineStatus.OFFLINE);
             this.jda.shutdown();
-            System.exit(0);
         }
     }
 
@@ -84,6 +84,7 @@ public class DiscordBot {
     private List<Command> commandList() {
         List<Command> list = new ArrayList<>();
         list.add(new ExitCommand());
+        list.add(new ReloadCommand());
         return list;
     }
 

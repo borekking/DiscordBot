@@ -17,5 +17,6 @@ public class ExitCommand extends Command {
     public void perform(SlashCommandEvent event) {
         event.replyEmbeds(DefaultEmbeds.EXIT_EMBED.getEmbed().build()).complete();
         Main.getDiscordBot().disableBot();
+        System.exit(0);
     }
 }
