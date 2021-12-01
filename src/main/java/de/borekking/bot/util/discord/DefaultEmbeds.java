@@ -6,7 +6,8 @@ import java.time.OffsetDateTime;
 
 public enum DefaultEmbeds {
 
-    JOIN_EMBED(new MyEmbedBuilder().description("Welcome to **%servername%**, %user%!\nYou are the %memberCount%. member!").title("Welcome!").timestamp(OffsetDateTime.now())),
+    JOIN_EMBED(new MyEmbedBuilder().description("Welcome to **%servername%**, %user%!%nextLine%You are the %memberCount%. member!").title("Welcome!").timestamp(OffsetDateTime.now())),
+    LEAVE_EMBED(new MyEmbedBuilder().description("Bye, bye, %user%!%nextLine%%nextLine%Left members: %memberCount%").title("Bye!").timestamp(OffsetDateTime.now())),
     EXIT_EMBED(new MyEmbedBuilder().title("Disabled bot"));
 
     private final MessageEmbed embed;
