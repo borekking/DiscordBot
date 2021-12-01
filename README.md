@@ -11,6 +11,7 @@
 - [ ] Warns
 - [ ] Giveaways
 - [x] Reload Command
+- [ ] Configurable Activity 
 
 ## Prioritized Features in detail
 ### Ticket System:
@@ -61,3 +62,6 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 
 ### (Config-) Reload
 - reload config
+- 
+### Configurable Activity 
+- Configurable Activity or maybe also "listening to", etc.
