@@ -1,7 +1,5 @@
 package de.borekking.bot.util.discord;
 
-import net.dv8tion.jda.api.entities.MessageEmbed;
-
 import java.time.OffsetDateTime;
 
 public enum DefaultEmbeds {
@@ -10,13 +8,13 @@ public enum DefaultEmbeds {
     LEAVE_EMBED(new MyEmbedBuilder().description("Bye, bye, %user%!%nextLine%%nextLine%Left members: %memberCount%").title("Bye!").timestamp(OffsetDateTime.now())),
     EXIT_EMBED(new MyEmbedBuilder().title("Disabled bot"));
 
-    private final MessageEmbed embed;
+    private final MyEmbedBuilder embed;
 
     DefaultEmbeds(MyEmbedBuilder builder) {
-        this.embed = builder.build();
+        this.embed = builder;
     }
 
-    public MessageEmbed getEmbed() {
+    public MyEmbedBuilder getEmbed() {
         return embed;
     }
 }
