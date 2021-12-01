@@ -19,7 +19,7 @@
 - On Close: Confirmation message with Message Components (enable, text, etc. in config), message that the ticket was closed. Config setting if users can close tickets?
 - Logs for tickets.
 
-### Levelsystem
+### Levelsystem (Database)
   - On special amount of messages a message in a specified channel (config). Message also configurable.
 level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 messages, etc.
 -> Database needed?
@@ -36,7 +36,7 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Ban user from Server
 
-### Muting
+### Muting (Database)
 - Command: /mute <user> <reason> <time>
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Mute with a role
@@ -54,6 +54,6 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 - 5 Warns = kick
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 
-### Giveaways
+### Giveaways (Database)
 - command: /giveaway -> questions: (channel, time what, winners amount) -> confirmation message -> giveaway into a channel
 -> After time a winner (database -> table with information, check by reaction?)
