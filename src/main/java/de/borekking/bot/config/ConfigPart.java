@@ -19,6 +19,7 @@ public class ConfigPart {
     }
 
     public  <T> T getValue(Function<Object, T> f) {
+        if (this.value == null) return null;
         return f.apply(this.value);
     }
 
