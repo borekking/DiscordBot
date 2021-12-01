@@ -2,20 +2,22 @@ package de.borekking.bot.util.discord.event;
 
 import de.borekking.bot.config.JSONAble;
 import de.borekking.bot.util.discord.JSONEmbedUtil;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import de.borekking.bot.util.discord.MyEmbedBuilder;
 import org.json.simple.JSONObject;
 
 public class EventInformation implements JSONAble {
 
-    private final boolean enabled;
+    private final boolean enabled, undefined;
     private final String channelID;
-    private final MessageEmbed embed;
+    private final MyEmbedBuilder embed;
     private JSONObject jsonObject;
 
-    public EventInformation(boolean enabled, String channelID, MessageEmbed embed) {
+    public EventInformation(boolean enabled, String channelID, MyEmbedBuilder embed) {
         this.enabled = enabled;
         this.channelID = channelID;
         this.embed = embed;
+
+        this.undefined = this.channelID == null || this.embed == null || this.embed.build().isEmpty();
     }
 
     @Override
@@ -38,14 +40,18 @@ public class EventInformation implements JSONAble {
         JSONObject jsonEmbed = (JSONObject) object.get("embed");
         if (enabled == null || channelID == null || jsonEmbed == null) return null;
 
-        return new EventInformation(enabled, channelID, JSONEmbedUtil.toMyEmbedBuilder(jsonEmbed).build());
+        return new EventInformation(enabled, channelID, JSONEmbedUtil.toMyEmbedBuilder(jsonEmbed));
+    }
+
+    public boolean isUndefined() {
+        return undefined;
     }
 
     public boolean isEnabled() {
         return enabled;
     }
 
-    public MessageEmbed getEmbed() {
+    public MyEmbedBuilder getEmbed() {
         return embed;
     }
 
