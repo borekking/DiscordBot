@@ -29,7 +29,7 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 - Message in specified channel (config) (configurable message).
 
 ### Announcements
-- Specified channel (config
+- Specified channel (config)
 - Write in with commands (Header, Text)
 
 ### Baning
