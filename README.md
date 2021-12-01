@@ -10,6 +10,7 @@
 - [ ] Kicking
 - [ ] Warns
 - [ ] Giveaways
+- [ ] Reload Command
 
 ## Prioritized Features in detail
 ### Ticket System:
@@ -57,3 +58,6 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 ### Giveaways (Database)
 - command: /giveaway -> questions: (channel, time what, winners amount) -> confirmation message -> giveaway into a channel
 -> After time a winner (database -> table with information, check by reaction?)
+
+### (Config-) Reload
+- reload config
