@@ -3,7 +3,7 @@
 
 - [ ] Ticket System
 - [ ] Levelsystem
-- [ ] Welcome / Leave
+- [x] Welcome / Leave
 - [ ] Announcements
 - [ ] Baning
 - [ ] Muting
