@@ -14,18 +14,16 @@ public class ConfigurationManager {
     private final File config;
     private boolean firstTime;
 
-    public ConfigurationManager(String fileName) throws IOException, ParseException {
+    public ConfigurationManager(String fileName) throws IOException {
         this.config = new File(fileName);
 
         if (!this.config.exists()) {
             this.firstTime = true;
             this.config.createNewFile();
         }
-
-        this.init();
     }
 
-    private void init() throws IOException, ParseException {
+    public void load() throws IOException, ParseException {
         JSONObject inputConfig = null;
         // Prevent file being empty
         if (!this.firstTime)

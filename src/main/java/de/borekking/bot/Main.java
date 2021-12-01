@@ -28,11 +28,25 @@ public class Main {
      *
      */
 
+    private static ConfigurationManager configurationManager;
     private static DiscordBot discordBot;
     private static PlaceholderTranslator placeholderTranslator;
 
     public static void main(String[] args) throws IOException, ParseException {
-        new ConfigurationManager("config.json");
+        configurationManager = new ConfigurationManager("config.json");
+
+        load();
+
+        placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
+    }
+
+    public static void reload() throws IOException, ParseException {
+        discordBot.disableBot();
+        load();
+    }
+
+    private static void load() throws IOException, ParseException {
+        configurationManager.load();
 
         try {
             discordBot = new DiscordBot(ConfigSetting.TOKEN.getValueAsString(), ConfigSetting.GUILD_ID.getValueAsString(),
@@ -41,8 +55,6 @@ public class Main {
             System.err.println("Error while connecting DiscordBot!");
             System.exit(0);
         }
-
-        placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
     }
 
     private static PlaceholderManager<Void> getGeneralPlaceholderManager() {
