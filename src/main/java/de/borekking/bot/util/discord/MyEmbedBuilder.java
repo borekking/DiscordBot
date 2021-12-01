@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +59,10 @@ public class MyEmbedBuilder implements Replaceable {
         this.author = embed.getAuthor();
         this.footer = embed.getFooter();
         this.image = embed.getImage();
+    }
+
+    public MyEmbedBuilder copy() {
+        return new MyEmbedBuilder(this.build());
     }
 
     public MyEmbedBuilder field(String name, String value, boolean inline) {
