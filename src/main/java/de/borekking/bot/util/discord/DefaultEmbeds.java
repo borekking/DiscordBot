@@ -1,6 +1,6 @@
 package de.borekking.bot.util.discord;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.OffsetDateTime;
 
 public enum DefaultEmbeds {
