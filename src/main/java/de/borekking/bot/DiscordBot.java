@@ -3,6 +3,7 @@ package de.borekking.bot;
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.ExitCommand;
 import de.borekking.bot.command.commands.ReloadCommand;
+import de.borekking.bot.command.commands.TestCommand;
 import de.borekking.bot.listener.ButtonClickListener;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
@@ -91,6 +92,7 @@ public class DiscordBot {
         List<Command> list = new ArrayList<>();
         list.add(new ExitCommand());
         list.add(new ReloadCommand());
+        list.add(new TestCommand());
         return list;
     }
 
