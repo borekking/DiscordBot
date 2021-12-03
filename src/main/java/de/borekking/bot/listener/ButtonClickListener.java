@@ -17,8 +17,9 @@ public class ButtonClickListener extends ListenerAdapter {
     @Override
     public void onButtonClick(ButtonClickEvent event) {
         Button button = event.getButton();
-        String buttonID = button.getId();
-        long id = Long.parseLong(buttonID.split("\\.")[0]);
+        if (button == null) return;
+
+        long id = Main.getButtonManager().getIDFromButton(button);
 
         Message msg = event.getMessage();
         Member member = event.getMember();

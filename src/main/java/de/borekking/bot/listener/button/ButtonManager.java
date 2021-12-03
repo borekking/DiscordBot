@@ -1,6 +1,7 @@
 package de.borekking.bot.listener.button;
 
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.interactions.components.Button;
 
 import java.util.*;
 
@@ -19,6 +20,20 @@ public class ButtonManager {
         long id = new Random().nextInt();
         if (!this.usedIDs.contains(id)) return id;
         return this.getNewUniqueID();
+    }
+
+    // Methode to apply right syntax to button´s actual ID
+    public String[] getIDs(long id, int amount) {
+        String[] arr = new String[amount];
+        for (int i = 0; i < amount; i++)
+            arr[i] = id + "." + i;
+        return arr;
+    }
+
+    // Methode to get ID from button´s ID
+    public long getIDFromButton(Button button) {
+        String buttonID = button.getId();
+        return  Long.parseLong(buttonID.split("\\.")[0]);
     }
 
     public void addButtonEvent(Member member, ButtonAction e) {
