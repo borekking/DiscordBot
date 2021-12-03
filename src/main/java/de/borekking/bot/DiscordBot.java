@@ -66,6 +66,10 @@ public class DiscordBot {
         }
     }
 
+    public long getPing() {
+        return this.jda.getGatewayPing();
+    }
+
     private void registerListeners() {
         this.registerEvent(new SlashCommandListener());
         this.registerEvent(new JoinListener());
