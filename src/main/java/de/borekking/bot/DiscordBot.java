@@ -1,13 +1,11 @@
-package de.borekking.bot;
+    package de.borekking.bot;
 
 import de.borekking.bot.command.Command;
+import de.borekking.bot.command.commands.AnnouncementCommand;
 import de.borekking.bot.command.commands.ExitCommand;
 import de.borekking.bot.command.commands.ReloadCommand;
 import de.borekking.bot.command.commands.TestCommand;
-import de.borekking.bot.listener.ButtonClickListener;
-import de.borekking.bot.listener.JoinListener;
-import de.borekking.bot.listener.LeaveListener;
-import de.borekking.bot.listener.SlashCommandListener;
+import de.borekking.bot.listener.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -92,6 +90,7 @@ public class DiscordBot {
         List<Command> list = new ArrayList<>();
         list.add(new ExitCommand());
         list.add(new ReloadCommand());
+        list.add(new AnnouncementCommand());
         list.add(new TestCommand());
         return list;
     }
