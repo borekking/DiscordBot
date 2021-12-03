@@ -11,7 +11,7 @@
 - [ ] Warns
 - [ ] Giveaways
 - [x] Reload Command
-- [ ] Configurable Activity + Activity Command
+- [x] Configurable Activity + Activity Command
 
 ## Prioritized Features in detail
 ### Ticket System:

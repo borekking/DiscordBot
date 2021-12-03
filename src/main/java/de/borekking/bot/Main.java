@@ -11,6 +11,7 @@ import de.borekking.bot.util.placeholder.placeholderTypes.MemberPlaceholder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import javax.security.auth.login.LoginException;
@@ -57,11 +58,34 @@ public class Main {
 
         try {
             discordBot = new DiscordBot(ConfigSetting.TOKEN.getValueAsString(), ConfigSetting.GUILD_ID.getValueAsString(),
-                    Activity.playing("187"));
+                    getActivity());
         } catch (LoginException e) {
             System.err.println("Error while connecting DiscordBot!");
             System.exit(0);
         }
+    }
+
+    private static Activity getActivity() {
+        String[] activities = new String[]{"playing", "streaming", "listening", "watching", "", "competing"};
+        JSONObject setting = ConfigSetting.Activity.getValueAsJSONObject();
+
+        for (int i = 0; i < activities.length; i++) {
+            String activity = activities[i];
+            if (activity.isEmpty()) continue;
+
+            JSONObject object = (JSONObject) setting.get(activity);
+            boolean enabled = (boolean) object.get("enabled");
+
+            if (enabled) {
+                String name = (String) object.get("name");
+                String url = (String) object.get("url");
+
+                Activity.ActivityType activityType = Activity.ActivityType.fromKey(i);
+                return Activity.of(activityType, name, url);
+            }
+        }
+
+        return Activity.playing("187");
     }
 
     private static PlaceholderManager<Void> getGeneralPlaceholderManager() {
