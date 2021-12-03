@@ -92,4 +92,25 @@ public class Main {
     public static DiscordBot getDiscordBot() {
         return discordBot;
     }
+
+    private static void startConsoleListener() throws IOException, ParseException {
+        Scanner scanner = new Scanner(System.in);
+
+        while (scanner.hasNext()) {
+            String str = scanner.nextLine();
+
+            switch (str) {
+                case "exit":
+                case "stop":
+                    discordBot.disableBot();
+                    break;
+                case "start":
+                    load();
+                    break;
+                case "reload":
+                    reload();
+                    break;
+            }
+        }
+    }
 }
