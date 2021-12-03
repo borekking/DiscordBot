@@ -3,6 +3,7 @@ package de.borekking.bot;
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.ExitCommand;
 import de.borekking.bot.command.commands.ReloadCommand;
+import de.borekking.bot.listener.ButtonClickListener;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
 import de.borekking.bot.listener.SlashCommandListener;
@@ -49,9 +50,9 @@ public class DiscordBot {
             e.printStackTrace();
         }
 
-        this.registerCommands(this.jda.updateCommands());
-
         this.guild = this.jda.getGuildById(guildID);
+
+        this.registerCommands(this.guild.updateCommands());
     }
 
     public Command getCommandByName(String name) {
@@ -69,6 +70,7 @@ public class DiscordBot {
         this.registerEvent(new SlashCommandListener());
         this.registerEvent(new JoinListener());
         this.registerEvent(new LeaveListener());
+        this.registerEvent(new ButtonClickListener());
     }
 
     private void registerEvent(ListenerAdapter e) {
@@ -77,7 +79,7 @@ public class DiscordBot {
 
     private void registerCommands(CommandListUpdateAction commands) {
         for (Command command : this.commandList)
-            commands.addCommands(command.getCommandData()).queue();
+            commands.addCommands(command.getCommandData());
         commands.queue();
     }
 
