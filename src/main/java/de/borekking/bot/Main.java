@@ -2,6 +2,7 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
+import de.borekking.bot.listener.button.ButtonManager;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
@@ -14,6 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -31,17 +33,22 @@ public class Main {
     private static ConfigurationManager configurationManager;
     private static DiscordBot discordBot;
     private static PlaceholderTranslator placeholderTranslator;
+    private static ButtonManager buttonManager;
 
     public static void main(String[] args) throws IOException, ParseException {
         configurationManager = new ConfigurationManager("config.json");
+        buttonManager = new ButtonManager();
 
         load();
 
         placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
+
+        startConsoleListener();
     }
 
     public static void reload() throws IOException, ParseException {
         discordBot.disableBot();
+        buttonManager.clear();
         load();
     }
 
@@ -72,6 +79,10 @@ public class Main {
         PlaceholderManager<Member> manager = new PlaceholderManager<>();
         manager.addPlaceholder(new MemberPlaceholder("%user%", IMentionable::getAsMention));
         return manager;
+    }
+
+    public static ButtonManager getButtonManager() {
+        return buttonManager;
     }
 
     public static PlaceholderTranslator getPlaceholderTranslator() {
