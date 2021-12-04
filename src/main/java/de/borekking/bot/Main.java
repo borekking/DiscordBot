@@ -2,7 +2,7 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
-import de.borekking.bot.listener.button.ButtonManager;
+import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
@@ -21,6 +21,14 @@ import java.util.Scanner;
 public class Main {
 
     /*
+     * TODO:
+     * Add...
+     *  - (Un-) BanCommand
+     *  - Help Command (filtered by users Permission)
+     *
+     */
+
+    /*
      * Placeholders
      *
      * - %user% user that joined as mention
@@ -28,6 +36,9 @@ public class Main {
      * - %servername% server's name
      * - %date% date in format mm/dd/yyyy
      * - %nextLine% next line
+     *
+     * Extras:
+     * - %reason% for actions like ban/warn/mute
      *
      */
 
