@@ -70,7 +70,7 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     public MyEmbedBuilder(MessageEmbed embed) {
-        this.fields = embed.getFields();
+        this.fields = new ArrayList<>(embed.getFields());
         this.description = embed.getDescription();
         this.color = embed.getColorRaw();
         this.title = embed.getTitle();
@@ -79,6 +79,8 @@ public class MyEmbedBuilder implements Replaceable {
         this.author = embed.getAuthor();
         this.footer = embed.getFooter();
         this.image = embed.getImage();
+
+        this.changed();
     }
 
     public MyEmbedBuilder copy() {
@@ -286,7 +288,7 @@ public class MyEmbedBuilder implements Replaceable {
         return this.apply(c, o -> true, t);
     }
 
-    private boolean isEmpty() {
+    public boolean isEmpty() {
         return (this.title == null || this.title.trim().isEmpty()) && this.timestamp == null && this.thumbnail == null && this.author == null && this.footer == null && this.image == null && this.color == 536870911 && this.description.length() == 0 && this.fields.isEmpty();
     }
 }
