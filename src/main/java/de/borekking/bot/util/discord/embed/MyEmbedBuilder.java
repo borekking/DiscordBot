@@ -1,4 +1,4 @@
-package de.borekking.bot.util.discord;
+package de.borekking.bot.util.discord.embed;
 
 import de.borekking.bot.util.placeholder.Replaceable;
 import de.borekking.bot.util.java.Checker;
@@ -47,6 +47,26 @@ public class MyEmbedBuilder implements Replaceable {
 
     public MyEmbedBuilder() {
         this.fields = new ArrayList<>();
+    }
+
+    public MyEmbedBuilder(EmbedType type) {
+        this();
+
+        switch (type) {
+            case ERROR:
+                this.title("Error");
+                this.color(Color.RED);
+                break;
+            case SUCCESS:
+                this.title("Success");
+                this.color(Color.GREEN);
+                break;
+            case NEUTRAL:
+                this.color(Color.BLUE);
+                break;
+        }
+
+        this.changed();
     }
 
     public MyEmbedBuilder(MessageEmbed embed) {
