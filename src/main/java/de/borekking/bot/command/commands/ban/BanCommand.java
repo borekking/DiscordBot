@@ -49,9 +49,16 @@ public class BanCommand extends Command {
             return;
         }
 
+        Member selfMember = event.getGuild().getSelfMember();
+
+        if (selfMember.equals(targetMember)) {
+            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("Please don't ban me :(").build()).queue();
+            return;
+        }
+
         // Check if targetMember can be interacted
-        if (!event.getGuild().getSelfMember().canInteract(targetMember)) {
-            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("The bot can not ban " + targetMember.getAsMention() + "!").build()).queue();
+        if (!selfMember.canInteract(targetMember)) {
+            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("I don't have the required permission to ban " + targetMember.getAsMention() + "!").build()).queue();
             return;
         }
 
