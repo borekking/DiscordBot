@@ -33,23 +33,23 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 - Write in specified channel with commands (Header, Text, Channel, (Role to ping))
 
 ### Baning
-- Command: /ban <user>
+- Command: /ban [user] [reason]
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Ban user from Server
 
 ### Muting (Database)
-- Command: /mute <user> <reason> <time>
+- Command: /mute [user] [reason] [time]
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Mute with a role
 -> Database, create role?
 
 ### Kicking
-- Command: /ban <user>
+- Command: /kick [user] [reason]
 - Confirmation: Configurable message (placeholder) in chat (specific channel, or sender´s configurable)
 -> Kick user from Server
 
 ### Warns
-- Command: /warn <user> <reason> <time>
+- Command: /warn [user] [reason]
 - Info to user per DM: Message configurable
 - 3 Warns = mute for configurable time
 - 5 Warns = kick
@@ -61,7 +61,7 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 
 ### (Config-) Reload
 - reload config
-- 
+
 ### Activity 
 - Configurable Activity or maybe also "listening to", etc.
 - Command to change Activity
