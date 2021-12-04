@@ -2,8 +2,9 @@ package de.borekking.bot.util.discord.event;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.config.JSONAble;
-import de.borekking.bot.util.discord.JSONEmbedUtil;
-import de.borekking.bot.util.discord.MyEmbedBuilder;
+import de.borekking.bot.util.discord.embed.JSONEmbedUtil;
+import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
+import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.json.simple.JSONObject;
@@ -23,7 +24,7 @@ public class EventInformation implements JSONAble {
         this.undefined = this.channelID == null || this.embed == null || this.embed.build().isEmpty();
     }
 
-    public void apply(Member member) {
+    public void apply(Member member, PlaceholderTranslator translator) {
         if (this.undefined) return;
         if (!this.enabled) return;
 
@@ -31,9 +32,13 @@ public class EventInformation implements JSONAble {
         if (channel == null) return;
 
         MyEmbedBuilder embedCopy = this.embed.copy();
-        embedCopy.replace(Main.getPlaceholderTranslator(), member);
+        embedCopy.replace(translator, member);
 
         channel.sendMessageEmbeds(embedCopy.build()).queue();
+    }
+
+    public void apply(Member member) {
+        this.apply(member, Main.getPlaceholderTranslator());
     }
 
     @Override
