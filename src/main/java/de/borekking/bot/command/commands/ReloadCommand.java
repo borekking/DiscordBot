@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ReloadCommand extends Command {
 
     public ReloadCommand() {
-        super("reload", "Reload the config and restarts the bot.", new OptionData[0], Permission.ADMINISTRATOR);
+        super("reload", "Reload the config and restarts the bot", new OptionData[0], Permission.ADMINISTRATOR);
     }
 
     @Override
