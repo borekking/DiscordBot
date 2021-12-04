@@ -5,7 +5,7 @@
 - [ ] Levelsystem
 - [x] Welcome / Leave
 - [x] Announcements
-- [ ] Baning
+- [x] Baning
 - [ ] Muting
 - [ ] Kicking
 - [ ] Warns
