@@ -1,8 +1,8 @@
 package de.borekking.bot.listener;
 
 import de.borekking.bot.Main;
-import de.borekking.bot.listener.button.ButtonAction;
-import de.borekking.bot.listener.button.ButtonManager;
+import de.borekking.bot.util.discord.button.ButtonToActionStorage;
+import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.discord.ButtonUtils;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -27,7 +27,7 @@ public class ButtonClickListener extends ListenerAdapter {
 
         ButtonManager manager = Main.getButtonManager();
 
-        ButtonAction buttonAction = manager.getButtonEvent(member, id);
+        ButtonToActionStorage buttonAction = manager.getButtonEvent(member, id);
         if (buttonAction == null) return;
 
         Consumer<Member> action = buttonAction.getAction(button);

@@ -1,4 +1,4 @@
-package de.borekking.bot.listener.button;
+package de.borekking.bot.util.discord.button;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.components.Button;
@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class ButtonAction {
+public class ButtonToActionStorage {
 
     private final long id;
     private final Map<Button, Consumer<Member>> actions;
 
-    public ButtonAction(long id) {
+    public ButtonToActionStorage(long id) {
         this.id = id;
         this.actions = new HashMap<>();
     }
