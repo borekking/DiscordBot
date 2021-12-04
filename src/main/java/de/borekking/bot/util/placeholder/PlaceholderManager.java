@@ -7,8 +7,12 @@ public class PlaceholderManager<T> {
 
     private final List<Placeholder<T>> placeholders;
 
+    private PlaceholderManager(List<Placeholder<T>> placeholders) {
+        this.placeholders = placeholders;
+    }
+
     public PlaceholderManager() {
-        this.placeholders = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     @SafeVarargs
@@ -17,6 +21,10 @@ public class PlaceholderManager<T> {
             str = ph.replace(str, t);
 
         return str;
+    }
+
+    public PlaceholderManager<T> copy() {
+        return new PlaceholderManager<>(new ArrayList<>(this.placeholders));
     }
 
     public void addPlaceholder(Placeholder<T> placeholder) {
