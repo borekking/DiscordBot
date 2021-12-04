@@ -1,25 +1,29 @@
     package de.borekking.bot;
 
-import de.borekking.bot.command.Command;
-import de.borekking.bot.command.commands.AnnouncementCommand;
-import de.borekking.bot.command.commands.ExitCommand;
-import de.borekking.bot.command.commands.ReloadCommand;
-import de.borekking.bot.command.commands.TestCommand;
-import de.borekking.bot.listener.*;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
+    import de.borekking.bot.command.Command;
+    import de.borekking.bot.command.commands.AnnouncementCommand;
+    import de.borekking.bot.command.commands.ExitCommand;
+    import de.borekking.bot.command.commands.ReloadCommand;
+    import de.borekking.bot.command.commands.TestCommand;
+    import de.borekking.bot.command.commands.ban.BanCommand;
+    import de.borekking.bot.listener.ButtonClickListener;
+    import de.borekking.bot.listener.JoinListener;
+    import de.borekking.bot.listener.LeaveListener;
+    import de.borekking.bot.listener.SlashCommandListener;
+    import net.dv8tion.jda.api.JDA;
+    import net.dv8tion.jda.api.JDABuilder;
+    import net.dv8tion.jda.api.OnlineStatus;
+    import net.dv8tion.jda.api.entities.Activity;
+    import net.dv8tion.jda.api.entities.Guild;
+    import net.dv8tion.jda.api.hooks.ListenerAdapter;
+    import net.dv8tion.jda.api.requests.GatewayIntent;
+    import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
+    import net.dv8tion.jda.api.utils.ChunkingFilter;
+    import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
-import java.util.List;
+    import javax.security.auth.login.LoginException;
+    import java.util.ArrayList;
+    import java.util.List;
 
 public class DiscordBot {
 
@@ -92,6 +96,7 @@ public class DiscordBot {
         list.add(new ReloadCommand());
         list.add(new AnnouncementCommand());
         list.add(new TestCommand());
+        list.add(new BanCommand());
         return list;
     }
 

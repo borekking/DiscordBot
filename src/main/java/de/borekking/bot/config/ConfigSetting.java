@@ -1,6 +1,6 @@
 package de.borekking.bot.config;
 
-import de.borekking.bot.util.discord.DefaultEmbeds;
+import de.borekking.bot.util.discord.embed.DefaultEmbeds;
 import de.borekking.bot.util.discord.event.EventInformation;
 import org.json.simple.JSONObject;
 
@@ -23,7 +23,8 @@ public enum ConfigSetting {
             main.put(activity, object);
         }
         return main;
-    }));
+    })),
+    BANNED_PLAYER_MESSAGE(new ConfigPart("banInformation", new EventInformation(true, "", DefaultEmbeds.BAN_INFORMATION.getEmbed()).toJSONObject()));
 
     private final ConfigPart part;
 
