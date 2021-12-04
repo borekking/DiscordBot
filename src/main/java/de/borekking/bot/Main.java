@@ -23,8 +23,7 @@ public class Main {
     /*
      * TODO:
      * Add...
-     *  - (Un-) BanCommand
-     *  - Help Command (filtered by users Permission)
+     *  - UnbanCommand
      *
      */
 
