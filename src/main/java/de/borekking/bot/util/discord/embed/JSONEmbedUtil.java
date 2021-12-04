@@ -1,4 +1,4 @@
-package de.borekking.bot.util.discord;
+package de.borekking.bot.util.discord.embed;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.json.simple.JSONArray;
@@ -84,8 +84,8 @@ public class JSONEmbedUtil {
         builder.description(description);
 
         // Color
-        long color = (long) object.get("color");
-        builder.color(new Color((int) color));
+        Number color = (Number) object.get("color");
+        builder.color(new Color(color.intValue()));
 
         // Title
         JSONObject titleObject = (JSONObject) object.get("title");
