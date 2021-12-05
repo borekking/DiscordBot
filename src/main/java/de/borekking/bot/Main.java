@@ -23,7 +23,8 @@ public class Main {
     /*
      * TODO:
      * Add...
-     *  - UnbanCommand
+     *  - KickCommand
+     *  - Make all Action Commands with deactivatable (config) Conformations
      *
      */
 
