@@ -10,6 +10,8 @@ public enum DefaultEmbeds {
     EXIT_EMBED(new MyEmbedBuilder(EmbedType.NEUTRAL).title("Disabled bot")),
     RELOAD_EMBED(new MyEmbedBuilder(EmbedType.NEUTRAL).title("Reload").description("Reloaded bot").timestamp(OffsetDateTime.now())),
     BAN_INFORMATION(new MyEmbedBuilder().color(Color.RED).title("Ban").description("%user% was banned.").field("Reason", "%reason%.", true)
+            .timestamp(OffsetDateTime.now())),
+    UNBAN_INFORMATION(new MyEmbedBuilder(EmbedType.SUCCESS).title("Unban").description("%user% was banned.").field("Reason", "%reason%.", true)
             .timestamp(OffsetDateTime.now()));
 
     private final MyEmbedBuilder embed;

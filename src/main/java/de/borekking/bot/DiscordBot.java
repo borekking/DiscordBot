@@ -3,6 +3,7 @@ package de.borekking.bot;
 import de.borekking.bot.command.Command;
 import de.borekking.bot.command.commands.*;
 import de.borekking.bot.command.commands.ban.BanCommand;
+import de.borekking.bot.command.commands.ban.UnbanCommand;
 import de.borekking.bot.listener.ButtonClickListener;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
@@ -94,6 +95,7 @@ public class DiscordBot {
         list.add(new AnnouncementCommand());
         list.add(new TestCommand());
         list.add(new BanCommand());
+        list.add(new UnbanCommand());
         list.add(new HelpCommand());
         return list;
     }
