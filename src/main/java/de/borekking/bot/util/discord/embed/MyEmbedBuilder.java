@@ -1,13 +1,13 @@
 package de.borekking.bot.util.discord.embed;
 
-import de.borekking.bot.util.placeholder.Replaceable;
 import de.borekking.bot.util.java.Checker;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
+import de.borekking.bot.util.placeholder.Replaceable;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 
-import java.awt.Color;
+import java.awt.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,28 +188,28 @@ public class MyEmbedBuilder implements Replaceable {
     }
 
     @Override
-    public void replace(PlaceholderTranslator translator, Member member) {
+    public void replace(PlaceholderTranslator translator, User user) {
         // Fields (name, value)
         List<MessageEmbed.Field> fields1 = new ArrayList<>();
         this.fields.forEach(field ->
-                fields1.add(new MessageEmbed.Field(translator.translate(field.getName(), member), translator.translate(field.getValue(), member), field.isInline()))
+                    fields1.add(new MessageEmbed.Field(translator.translate(field.getName(), user), translator.translate(field.getValue(), user), field.isInline()))
         );
         this.fields.clear();
         this.fields.addAll(fields1);
 
         // Description
-        this.description = translator.translate(this.description, member);
+        this.description = translator.translate(this.description, user);
 
         // Title
-        this.title = translator.translate(this.title, member);
+        this.title = translator.translate(this.title, user);
 
         // Author (name)
         if (this.author != null)
-            this.author = new MessageEmbed.AuthorInfo(translator.translate(this.author.getName(), member), this.author.getUrl(), this.author.getIconUrl(), null);
+            this.author = new MessageEmbed.AuthorInfo(translator.translate(this.author.getName(), user), this.author.getUrl(), this.author.getIconUrl(), null);
 
         // Footer (text)
         if (this.footer != null)
-            this.footer = new MessageEmbed.Footer(translator.translate(this.footer.getText(), member), this.footer.getIconUrl(), null);
+            this.footer = new MessageEmbed.Footer(translator.translate(this.footer.getText(), user), this.footer.getIconUrl(), null);
     }
 
     public MessageEmbed build() {
