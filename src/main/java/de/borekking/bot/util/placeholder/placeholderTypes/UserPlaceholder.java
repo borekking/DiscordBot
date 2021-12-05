@@ -1,21 +1,21 @@
 package de.borekking.bot.util.placeholder.placeholderTypes;
 
 import de.borekking.bot.util.placeholder.Placeholder;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.function.Function;
 
-public class MemberPlaceholder extends Placeholder<Member> {
+public class UserPlaceholder extends Placeholder<User> {
 
-    private final Function<Member, String> f;
+    private final Function<User, String> f;
 
-    public MemberPlaceholder(String key, Function<Member, String> f) {
+    public UserPlaceholder(String key, Function<User, String> f) {
         super(key);
         this.f = f;
     }
 
     @Override
-    protected String getValue(Member... t) {
+    protected String getValue(User... t) {
         if (t == null || t.length < 1) return this.getKey();
         return this.f == null ? this.getKey() : this.f.apply(t[0]);
     }

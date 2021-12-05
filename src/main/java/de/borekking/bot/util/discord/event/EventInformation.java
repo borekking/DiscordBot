@@ -7,6 +7,7 @@ import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.json.simple.JSONObject;
 
 public class EventInformation implements JSONAble {
@@ -24,7 +25,7 @@ public class EventInformation implements JSONAble {
         this.undefined = this.channelID == null || this.embed == null || this.embed.build().isEmpty();
     }
 
-    public void apply(Member member, PlaceholderTranslator translator) {
+    public void apply(User user, PlaceholderTranslator translator) {
         if (this.undefined) return;
         if (!this.enabled) return;
 
@@ -32,9 +33,13 @@ public class EventInformation implements JSONAble {
         if (channel == null) return;
 
         MyEmbedBuilder embedCopy = this.embed.copy();
-        embedCopy.replace(translator, member);
+        embedCopy.replace(translator, user);
 
         channel.sendMessageEmbeds(embedCopy.build()).queue();
+    }
+
+    public void apply(Member member, PlaceholderTranslator translator) {
+        this.apply(member.getUser(), translator);
     }
 
     public void apply(Member member) {
