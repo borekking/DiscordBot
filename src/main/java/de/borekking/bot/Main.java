@@ -7,10 +7,10 @@ import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
-import de.borekking.bot.util.placeholder.placeholderTypes.MemberPlaceholder;
+import de.borekking.bot.util.placeholder.placeholderTypes.UserPlaceholder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -109,9 +109,9 @@ public class Main {
         return manager;
     }
 
-    private static PlaceholderManager<Member> getMemberPlaceholderManager() {
-        PlaceholderManager<Member> manager = new PlaceholderManager<>();
-        manager.addPlaceholder(new MemberPlaceholder("%user%", IMentionable::getAsMention));
+    private static PlaceholderManager<User> getMemberPlaceholderManager() {
+        PlaceholderManager<User> manager = new PlaceholderManager<>();
+        manager.addPlaceholder(new UserPlaceholder("%user%", IMentionable::getAsMention));
         return manager;
     }
 
