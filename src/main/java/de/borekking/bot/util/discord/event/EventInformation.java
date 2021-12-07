@@ -22,7 +22,7 @@ public class EventInformation implements JSONAble {
         this.channelID = channelID;
         this.embed = embed;
 
-        this.undefined = this.channelID == null || this.embed == null || this.embed.build().isEmpty();
+        this.undefined = this.channelID == null || this.embed == null || this.embed.build().isEmpty() || this.channelID.trim().isEmpty();
     }
 
     public void apply(User user, PlaceholderTranslator translator) {
