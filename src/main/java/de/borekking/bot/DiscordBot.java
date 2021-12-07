@@ -1,9 +1,14 @@
 package de.borekking.bot;
 
 import de.borekking.bot.command.Command;
-import de.borekking.bot.command.commands.*;
+import de.borekking.bot.command.commands.AnnouncementCommand;
+import de.borekking.bot.command.commands.ExitCommand;
+import de.borekking.bot.command.commands.HelpCommand;
+import de.borekking.bot.command.commands.ReloadCommand;
+import de.borekking.bot.command.commands.TestCommand;
 import de.borekking.bot.command.commands.ban.BanCommand;
 import de.borekking.bot.command.commands.ban.UnbanCommand;
+import de.borekking.bot.command.commands.kick.KickCommand;
 import de.borekking.bot.listener.ButtonClickListener;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
@@ -97,6 +102,7 @@ public class DiscordBot {
         list.add(new BanCommand());
         list.add(new UnbanCommand());
         list.add(new HelpCommand());
+        list.add(new KickCommand());
         return list;
     }
 

@@ -12,6 +12,8 @@ public enum DefaultEmbeds {
     BAN_INFORMATION(new MyEmbedBuilder().color(Color.RED).title("Ban").description("%user% was banned.").field("Reason", "%reason%.", true)
             .timestamp(OffsetDateTime.now())),
     UNBAN_INFORMATION(new MyEmbedBuilder(EmbedType.SUCCESS).title("Unban").description("%user% was banned.").field("Reason", "%reason%.", true)
+            .timestamp(OffsetDateTime.now())),
+    KICK_INFORMATION(new MyEmbedBuilder(EmbedType.SUCCESS).title("Kick").description("%user% was kicked.").field("Reason", "%reason%.", true)
             .timestamp(OffsetDateTime.now()));
 
     private final MyEmbedBuilder embed;

@@ -25,7 +25,8 @@ public enum ConfigSetting {
         return main;
     })),
     BANNED_PLAYER_MESSAGE(new ConfigPart("banInformation", new EventInformation(true, "", DefaultEmbeds.BAN_INFORMATION.getEmbed()).toJSONObject())),
-    UNBAN_PLAYER_MESSAGE(new ConfigPart("unbanInformation", new EventInformation(true, "", DefaultEmbeds.UNBAN_INFORMATION.getEmbed()).toJSONObject()));
+    UNBAN_PLAYER_MESSAGE(new ConfigPart("unbanInformation", new EventInformation(true, "", DefaultEmbeds.UNBAN_INFORMATION.getEmbed()).toJSONObject())),
+    KICK_PLAYER_MESSAGE(new ConfigPart("kickInformation", new EventInformation(true, "", DefaultEmbeds.KICK_INFORMATION.getEmbed()).toJSONObject()));
 
     private final ConfigPart part;
 
