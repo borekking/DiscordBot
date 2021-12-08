@@ -7,7 +7,7 @@
 - [x] Announcements
 - [x] Baning
 - [ ] Muting
-- [ ] Kicking
+- [x] Kicking
 - [ ] Warns
 - [ ] Giveaways
 - [x] Reload Command
