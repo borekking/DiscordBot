@@ -34,6 +34,19 @@ public enum ConfigSetting {
         this.part = part;
     }
 
+    public Object getInnerValue(String key, String... args) {
+        JSONObject object = this.getValueAsJSONObject();
+        if (object == null) return null;
+
+        Object object1 = object.get(key);
+        for (String arg : args) {
+            if (!(object1 instanceof JSONObject)) break;
+            object1 = ((JSONObject) object1).get(arg);
+        }
+
+        return object1;
+    }
+
     public String getValueAsString() {
         return this.part.getValue(String::valueOf);
     }
