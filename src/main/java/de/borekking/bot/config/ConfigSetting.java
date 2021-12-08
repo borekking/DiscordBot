@@ -26,7 +26,13 @@ public enum ConfigSetting {
     })),
     BANNED_PLAYER_MESSAGE(new ConfigPart("banInformation", new EventInformation(true, "", DefaultEmbeds.BAN_INFORMATION.getEmbed()).toJSONObject())),
     UNBAN_PLAYER_MESSAGE(new ConfigPart("unbanInformation", new EventInformation(true, "", DefaultEmbeds.UNBAN_INFORMATION.getEmbed()).toJSONObject())),
-    KICK_PLAYER_MESSAGE(new ConfigPart("kickInformation", new EventInformation(true, "", DefaultEmbeds.KICK_INFORMATION.getEmbed()).toJSONObject()));
+    KICK_PLAYER_MESSAGE(new ConfigPart("kickInformation", new EventInformation(true, "", DefaultEmbeds.KICK_INFORMATION.getEmbed()).toJSONObject())),
+    MUTES(new ConfigPart("mute", () -> {
+        JSONObject main = new JSONObject();
+        main.put("muteRoleID", "");
+        main.put("muteInformation", new EventInformation(true, "", DefaultEmbeds.MUTE_INFORMATION.getEmbed()).toJSONObject());
+        return main;
+    }));
 
     private final ConfigPart part;
 

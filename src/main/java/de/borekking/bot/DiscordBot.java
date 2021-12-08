@@ -9,6 +9,7 @@ import de.borekking.bot.command.commands.TestCommand;
 import de.borekking.bot.command.commands.ban.BanCommand;
 import de.borekking.bot.command.commands.ban.UnbanCommand;
 import de.borekking.bot.command.commands.kick.KickCommand;
+import de.borekking.bot.command.commands.mute.MuteCommand;
 import de.borekking.bot.listener.ButtonClickListener;
 import de.borekking.bot.listener.JoinListener;
 import de.borekking.bot.listener.LeaveListener;
@@ -103,6 +104,7 @@ public class DiscordBot {
         list.add(new UnbanCommand());
         list.add(new HelpCommand());
         list.add(new KickCommand());
+        list.add(new MuteCommand());
         return list;
     }
 

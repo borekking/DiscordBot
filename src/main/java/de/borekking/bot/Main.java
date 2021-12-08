@@ -2,14 +2,15 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
-import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.discord.button.ButtonManager;
+import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
 import de.borekking.bot.util.placeholder.placeholderTypes.UserPlaceholder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -61,6 +62,7 @@ public class Main {
      *
      */
 
+    private static Role muteRole;
     private static ConfigurationManager configurationManager;
     private static DiscordBot discordBot;
     private static PlaceholderTranslator placeholderTranslator;
@@ -93,6 +95,9 @@ public class Main {
             System.err.println("Error while connecting DiscordBot!");
             System.exit(0);
         }
+
+        String muteRoleID = (String) ConfigSetting.MUTES.getInnerValue("muteRoleID");
+        muteRole = muteRoleID != null && !muteRoleID.trim().isEmpty() ? discordBot.getGuild().getRoleById(muteRoleID) : null;
     }
 
     private static Activity getActivity() {
@@ -145,6 +150,10 @@ public class Main {
 
     public static DiscordBot getDiscordBot() {
         return discordBot;
+    }
+
+    public static Role getMuteRole() {
+        return muteRole;
     }
 
     private static void startConsoleListener() throws IOException, ParseException {
