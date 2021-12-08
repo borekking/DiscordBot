@@ -2,8 +2,8 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
-import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.discord.Timestamp;
+import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
@@ -22,9 +22,28 @@ public class Main {
 
     /*
      * TODO:
-     * Add...
-     *  - KickCommand
      *  - Make all Action Commands with deactivatable (config) Conformations
+     *  - Add PermissionSystem:
+     *     - Saved in Database
+     *     - You can define roles with a command:
+     *        role create <name> [<permission_1>, <permission_2>, ...]
+     *     - You can remove roles roles:
+     *        role remove <name>
+     *     - You can list all roles:
+     *        role list
+     *     - Permissions:
+     *        - Strings
+     *        - Documented List for all Commands
+     *        - * for all permissions
+     *
+     *
+     *  TODAY:
+     *   - Mute Command (without time)
+     *   - Add Command to create mute-role
+     *   - Make Utils private (Constructors)
+     *   - Ticket System (start)
+     *   - Add Database support
+     *   - Add Time to Muting and Baning
      *
      */
 
