@@ -12,6 +12,7 @@
 - [ ] Giveaways
 - [x] Reload Command
 - [x] Configurable Activity + Activity Command
+- [ ] Permission System
 
 ## Prioritized Features in detail
 ### Ticket System:
@@ -65,3 +66,13 @@ level 1: 5 messages, level 2: 25 messages, level 3: 50 messages, level 4: 75 mes
 ### Activity 
 - Configurable Activity or maybe also "listening to", etc.
 - Command to change Activity
+
+### Permission System
+- Add PermissionSystem:
+- Saved in Database
+- You can define roles with a command: "role create <name> [<permission_1>, <permission_2>, ...]"
+- You can remove roles "roles: role remove <name>"
+- You can list all roles: "role list"
+- Permissions:
+  - Strings
+  - Documented List for all permissions 
