@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JavaUtil {
+public class JavaUtils {
 
     public static <T> List<T> getAsList(T[] arr) {
         return Arrays.stream(arr).collect(Collectors.toList());
