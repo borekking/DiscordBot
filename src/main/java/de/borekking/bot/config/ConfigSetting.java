@@ -31,6 +31,7 @@ public enum ConfigSetting {
         JSONObject main = new JSONObject();
         main.put("muteRoleID", "");
         main.put("muteInformation", new EventInformation(true, "", DefaultEmbeds.MUTE_INFORMATION.getEmbed()).toJSONObject());
+        main.put("unmuteInformation", new EventInformation(true, "", DefaultEmbeds.UN_MUTE_INFORMATION.getEmbed()).toJSONObject());
         return main;
     }));
 

@@ -15,6 +15,8 @@ public enum DefaultEmbeds {
     KICK_INFORMATION(new MyEmbedBuilder(EmbedType.ERROR).title("Kick").description("%user% was kicked.").field("Reason", "%reason%.", true)
             .timestamp(OffsetDateTime.now())),
     MUTE_INFORMATION(new MyEmbedBuilder(EmbedType.ERROR).title("Mute").description("%user% was muted.").field("Reason", "%reason%.", true)
+            .timestamp(OffsetDateTime.now())),
+    UN_MUTE_INFORMATION(new MyEmbedBuilder(EmbedType.SUCCESS).title("Unmute").description("%user% was unmuted.").field("Reason", "%reason%.", true)
             .timestamp(OffsetDateTime.now()));
 
     private final MyEmbedBuilder embed;
