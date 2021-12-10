@@ -2,8 +2,8 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
-import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.discord.Timestamp;
+import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.placeholder.PlaceholderManager;
 import de.borekking.bot.util.placeholder.PlaceholderTranslator;
 import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
@@ -79,6 +79,11 @@ public class Main {
         discordBot.disableBot();
         buttonManager.clear();
         load();
+    }
+
+    public static void exit() {
+        discordBot.disableBot();
+        System.exit(0);
     }
 
     private static void load() throws IOException, ParseException {
