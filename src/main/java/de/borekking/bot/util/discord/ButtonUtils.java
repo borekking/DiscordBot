@@ -8,6 +8,9 @@ import java.util.List;
 
 public class ButtonUtils {
 
+    private ButtonUtils() {
+    }
+
     public static void disableButtons(Message msg) {
         List<ActionRow> actionRows = msg.getActionRows();
 

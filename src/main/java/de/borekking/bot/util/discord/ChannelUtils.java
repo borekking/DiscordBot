@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 public class ChannelUtils {
 
+    private ChannelUtils() {
+    }
+
     private static final EnumSet<Permission> voiceChannelPermissions;
     private static final EnumSet<Permission> textChannelPermission;
 

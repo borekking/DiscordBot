@@ -6,6 +6,9 @@ import java.util.function.Predicate;
 
 public class Checker {
 
+    private Checker() {
+    }
+
     public static boolean isEmpty(String str) {
         return isNull(str) || str.trim().isEmpty();
     }

@@ -9,6 +9,9 @@ import java.time.OffsetDateTime;
 
 public class JSONEmbedUtil {
 
+    private JSONEmbedUtil(){
+    }
+
     /*
      * JSONObject structure
      *
