@@ -17,10 +17,7 @@ public class ConfigurationManager {
     public ConfigurationManager(String fileName) throws IOException {
         this.config = new File(fileName);
 
-        if (!this.config.exists()) {
-            this.firstTime = true;
-            this.config.createNewFile();
-        }
+        this.firstTime = this.config.createNewFile();
     }
 
     public void load() throws IOException, ParseException {
@@ -32,15 +29,16 @@ public class ConfigurationManager {
         JSONObject config = new JSONObject();
         for (ConfigSetting setting : ConfigSetting.values()) {
             String key = setting.getKey();
+            Object value;
 
             if (inputConfig != null && inputConfig.containsKey(key)) {
-                Object value = inputConfig.get(key);
-                config.put(key, value);
+                value = inputConfig.get(key);
                 setting.setValue(value);
             } else {
-                Object value = setting.getValue();
-                config.put(key, value);
+                value = setting.getValue();
             }
+
+            config.put(key, value);
         }
 
         this.write(config);
