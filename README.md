@@ -6,7 +6,7 @@
 - [x] Welcome / Leave
 - [x] Announcements
 - [x] Baning
-- [ ] Muting
+- [x] Muting
 - [x] Kicking
 - [ ] Warns
 - [ ] Giveaways
