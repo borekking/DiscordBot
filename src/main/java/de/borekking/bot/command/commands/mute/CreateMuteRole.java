@@ -2,6 +2,7 @@ package de.borekking.bot.command.commands.mute;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
+import de.borekking.bot.util.discord.PermissionUtils;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
 import de.borekking.bot.util.discord.ChannelUtils;
@@ -38,11 +39,11 @@ public class CreateMuteRole extends Command {
 
         if (disableMessageSending)
             for (TextChannel channel : Main.getDiscordBot().getGuild().getTextChannels())
-                ChannelUtils.setTextChannelPermission(channel, role, Collections.EMPTY_LIST, Permission.getPermissions(Permission.getRaw(Permission.MESSAGE_WRITE)));
+                ChannelUtils.setTextChannelPermissionRole(channel, role, Collections.EMPTY_LIST, PermissionUtils.getPermissions(Permission.MESSAGE_WRITE));
 
         if (disableVoiceJoining)
             for (VoiceChannel voiceChannel : Main.getDiscordBot().getGuild().getVoiceChannels())
-                ChannelUtils.setVoiceChannelPermission(voiceChannel, role, Collections.EMPTY_LIST, Permission.getPermissions(Permission.getRaw(Permission.VOICE_CONNECT)));
+                ChannelUtils.setVoiceChannelPermissionRole(voiceChannel, role, Collections.EMPTY_LIST, PermissionUtils.getPermissions(Permission.VOICE_CONNECT));
 
 
         event.replyEmbeds(new MyEmbedBuilder(EmbedType.SUCCESS).description("Created mute role \"" + roleName + "\" \n**ID:** " + role.getIdLong()).build()).queue();
