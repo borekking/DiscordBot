@@ -9,6 +9,7 @@ import de.borekking.bot.command.commands.TestCommand;
 import de.borekking.bot.command.commands.ban.BanCommand;
 import de.borekking.bot.command.commands.ban.UnbanCommand;
 import de.borekking.bot.command.commands.kick.KickCommand;
+import de.borekking.bot.command.commands.mute.CreateMuteRole;
 import de.borekking.bot.command.commands.mute.MuteCommand;
 import de.borekking.bot.command.commands.mute.UnmuteCommand;
 import de.borekking.bot.listener.ButtonClickListener;
@@ -107,6 +108,7 @@ public class DiscordBot {
         list.add(new KickCommand());
         list.add(new MuteCommand());
         list.add(new UnmuteCommand());
+        list.add(new CreateMuteRole());
         return list;
     }
 
