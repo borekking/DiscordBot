@@ -37,11 +37,7 @@ public class Main {
      *        - Documented List for all Commands
      *        - * for all permissions
      *
-     *
      *  TODAY:
-     *   - Mute Command (without time)
-     *   - Add Command to create mute-role
-     *   - Make Utils private (Constructors)
      *   - Ticket System (start)
      *   - Add Database support
      *   - Add Time to Muting and Baning
