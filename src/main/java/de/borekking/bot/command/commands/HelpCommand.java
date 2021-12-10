@@ -23,6 +23,11 @@ public class HelpCommand extends Command {
             if (event.getMember().hasPermission(command.getPermissions()))
                 builder.field(command.getName(), command.getDescription(), false);
 
+        // USer has no permissions for any commands
+        if (builder.build().getFields().size() == 0)
+            builder.description("Cringe, don't being able to use any commands");
+
+
         event.replyEmbeds(builder.build()).queue();
     }
 }
