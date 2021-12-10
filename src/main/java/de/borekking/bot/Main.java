@@ -39,7 +39,6 @@ public class Main {
      *
      *  TODAY:
      *   - Ticket System (start)
-     *   - Add Database support
      *   - Add Time to Muting and Baning
      *
      */
