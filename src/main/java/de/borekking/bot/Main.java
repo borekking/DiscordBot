@@ -126,12 +126,10 @@ public class Main {
 
     private static PlaceholderManager<Void> getGeneralPlaceholderManager() {
         PlaceholderManager<Void> manager = new PlaceholderManager<>();
-
         manager.addPlaceholder(new GeneralPlaceholder("%nextLine%", () -> "\n"));
         manager.addPlaceholder(new GeneralPlaceholder("%memberCount%", () -> String.valueOf(Main.getDiscordBot().getGuild().getMemberCount())));
         manager.addPlaceholder(new GeneralPlaceholder("%servername%", () -> discordBot.getGuild().getName()));
         manager.addPlaceholder(new GeneralPlaceholder("%date%", Timestamp.SHORT_DATE::apply));
-
         return manager;
     }
 
@@ -139,6 +137,25 @@ public class Main {
         PlaceholderManager<User> manager = new PlaceholderManager<>();
         manager.addPlaceholder(new UserPlaceholder("%user%", IMentionable::getAsMention));
         return manager;
+    }
+
+    private static void startConsoleListener() throws IOException, ParseException {
+        Scanner scanner = new Scanner(System.in);
+
+        while (scanner.hasNext()) {
+            switch (scanner.nextLine()) {
+                case "exit":
+                case "stop":
+                    discordBot.disableBot();
+                    break;
+                case "start":
+                    load();
+                    break;
+                case "reload":
+                    reload();
+                    break;
+            }
+        }
     }
 
     public static ButtonManager getButtonManager() {
@@ -155,26 +172,5 @@ public class Main {
 
     public static Role getMuteRole() {
         return muteRole;
-    }
-
-    private static void startConsoleListener() throws IOException, ParseException {
-        Scanner scanner = new Scanner(System.in);
-
-        while (scanner.hasNext()) {
-            String str = scanner.nextLine();
-
-            switch (str) {
-                case "exit":
-                case "stop":
-                    discordBot.disableBot();
-                    break;
-                case "start":
-                    load();
-                    break;
-                case "reload":
-                    reload();
-                    break;
-            }
-        }
     }
 }
