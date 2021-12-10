@@ -3,7 +3,7 @@ package de.borekking.bot.command.commands.mute;
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
 import de.borekking.bot.config.ConfigSetting;
-import de.borekking.bot.util.discord.RoleUtils;
+import de.borekking.bot.util.discord.role.RoleUtils;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
 import de.borekking.bot.util.discord.event.EventInformation;
@@ -37,8 +37,18 @@ public class MuteCommand extends Command {
 
         Role muteRole = Main.getMuteRole();
 
+        // Check if user already is muted
+        if (RoleUtils.hasRoles(targetMember, muteRole)) {
+            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description(targetMember.getAsMention() + " is already muted.").build()).queue();
+            return;
+        }
+
         if (!RoleUtils.addRoles(targetMember, muteRole)) {
-            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("MuteRoleID is not valid or the role has a higher priority than the bot´s highest role!").build()).queue();
+            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("Could not mute member " + targetMember.getAsMention() + "\n\n"
+                    + "**Possible Reasons**:\n "
+                    + "  - MuteRoleID is not valid\n"
+                    + "  - MuteRole has a higher or equal priority than the bot´s highest role\n"
+                    + "  - Target Member´s highest role has a higher or equal priority as the bot´s highest role").build()).queue();
             return;
         }
 
