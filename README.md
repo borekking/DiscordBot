@@ -16,8 +16,8 @@
 
 ## Prioritized Features in detail
 ### Ticket System:
-- Embed with Logo, Header, Text (Config or Command?) with Message Components to click (one or more...?)
-- Ticket´s Names: Name-ID
+- Embed with Logo, Header, Text with Message Components to click (one or more...?)
+- Ticket´s Names: Name-ID -> Command
 - On Opening: New Channel in specified section, automatic message with Message Component to close (Text in Config)
 - On Close: Confirmation message with Message Components (enable, text, etc. in config), message that the ticket was closed. Config setting if users can close tickets?
 - Logs for tickets.
