@@ -1,44 +1,38 @@
 package de.borekking.bot.util.discord.button;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.interactions.components.Button;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class ButtonManager {
 
-    private final List<Long> usedIDs;
+    public static final String BUTTON_PREFIX = "buma";
+
+    private final ButtonIDCreator creator;
+    // Member ID to List of ButtonToActionStorage
     private final Map<Long, List<ButtonToActionStorage>> buttonEvents;
 
     public ButtonManager() {
         this.buttonEvents = new HashMap<>();
-        this.usedIDs = new ArrayList<>();
+        this.creator = new ButtonIDCreator(BUTTON_PREFIX);
+    }
+
+    public boolean containsID(long id) {
+        return creator.containsID(id);
     }
 
     // Methode to get a unique id
     public long getNewUniqueID() {
-        long id = new Random().nextInt();
-        if (!this.usedIDs.contains(id)) return id;
-        return this.getNewUniqueID();
+        return this.creator.getNewUniqueID();
     }
 
     // Methode to apply right syntax to button´s actual ID
     public String[] getIDs(long id, int amount) {
-        String[] arr = new String[amount];
-        for (int i = 0; i < amount; i++)
-            arr[i] = id + "." + i;
-        return arr;
-    }
-
-    // Methode to get ID from button´s ID
-    public long getIDFromButton(Button button) {
-        String buttonID = button.getId();
-        return  Long.parseLong(buttonID.split("\\.")[0]);
+        return this.creator.getIDs(id, amount);
     }
 
     public void addButtonEvent(Member member, ButtonToActionStorage e) {
@@ -62,7 +56,7 @@ public class ButtonManager {
 
         list.removeIf(action -> action.compareID(id));
 
-        this.usedIDs.remove(id);
+        this.creator.remove(id);
     }
 
     public void clear() {
