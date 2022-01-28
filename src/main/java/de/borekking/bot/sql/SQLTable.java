@@ -1,22 +1,36 @@
 package de.borekking.bot.sql;
 
+import de.borekking.bot.Main;
+import de.borekking.bot.ban.BanHandler;
+import de.borekking.bot.util.sql.SQLColumn;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.StringJoiner;
 
-public class SQLTable {
+public enum SQLTable {
+
+    // Ban
+    BAN_TABLE("bans",BanHandler.DATABASE_BAN_USER_COLUMN, BanHandler.DATABASE_BAN_DURATION_COLUMN, BanHandler.DATABASE_BAN_TIMESTAMP_COLUMN);
 
     private final MySQLClient sqlClient;
-    private final String name, with;
+    private final String name;
+    private final SQLColumn[] sqlColumns;
 
-    public SQLTable(MySQLClient sqlClient, String name, String with) {
-        this.sqlClient = sqlClient;
+    SQLTable(String name, SQLColumn... columns) {
+        this.sqlClient = Main.getMySQLClient();
         this.name = name;
-        this.with = with;
+        this.sqlColumns = columns;
     }
 
-    public void create() {
+    public static void loadTables() {
+        for (SQLTable table : values())
+            table.create();
+    }
+
+    private void create() {
         if (this.sqlClient.isConnected())
-            this.sqlClient.update("CREATE TABLE IF NOT EXISTS " + this.name + "(" + this.with + ");");
+            this.sqlClient.update("CREATE TABLE IF NOT EXISTS " + this.name + "(" + SQLColumn.getAsString(this.sqlColumns) + ");");
     }
 
     public int size() {
@@ -46,6 +60,15 @@ public class SQLTable {
         }
 
         return size;
+    }
+
+    public String getColumns() {
+        StringJoiner joiner = new StringJoiner(", ");
+
+        for (SQLColumn column : this.sqlColumns)
+            joiner.add(column.getName());
+
+        return joiner.toString();
     }
 
     public String getName() {

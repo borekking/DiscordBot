@@ -2,6 +2,7 @@ package de.borekking.bot.config;
 
 import de.borekking.bot.util.discord.embed.DefaultEmbeds;
 import de.borekking.bot.util.discord.event.EventInformation;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public enum ConfigSetting {
@@ -33,6 +34,14 @@ public enum ConfigSetting {
         main.put("muteInformation", new EventInformation(true, "", DefaultEmbeds.MUTE_INFORMATION.getEmbed()).toJSONObject());
         main.put("unmuteInformation", new EventInformation(true, "", DefaultEmbeds.UN_MUTE_INFORMATION.getEmbed()).toJSONObject());
         return main;
+    })),
+    SQL(new ConfigPart("sql", () -> {
+        JSONObject main = new JSONObject();
+        main.put("host", "");
+        main.put("database", "");
+        main.put("user", "");
+        main.put("password", "");
+        return main;
     }));
 
     private final ConfigPart part;
@@ -60,6 +69,10 @@ public enum ConfigSetting {
 
     public JSONObject getValueAsJSONObject() {
         return this.part.getValue(o -> o instanceof JSONObject ? (JSONObject) o : null);
+    }
+
+    public JSONArray getValueAsJSONArray() {
+        return this.part.getValue(o -> o instanceof JSONArray ? (JSONArray) o : null);
     }
 
     public EventInformation getAsEventInformation() {
