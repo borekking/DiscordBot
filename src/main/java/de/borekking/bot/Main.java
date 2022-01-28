@@ -2,12 +2,16 @@ package de.borekking.bot;
 
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
+import de.borekking.bot.sql.MySQLClient;
+import de.borekking.bot.sql.SQLTable;
+import de.borekking.bot.ticket.TicketManager;
+import de.borekking.bot.ticket.TicketType;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.discord.button.ButtonManager;
-import de.borekking.bot.util.placeholder.PlaceholderManager;
-import de.borekking.bot.util.placeholder.PlaceholderTranslator;
-import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
-import de.borekking.bot.util.placeholder.placeholderTypes.UserPlaceholder;
+import de.borekking.bot.placeholder.PlaceholderManager;
+import de.borekking.bot.placeholder.PlaceholderTranslator;
+import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
+import de.borekking.bot.placeholder.placeholderTypes.UserPlaceholder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Role;
@@ -17,6 +21,8 @@ import org.json.simple.parser.ParseException;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -62,6 +68,8 @@ public class Main {
     private static DiscordBot discordBot;
     private static PlaceholderTranslator placeholderTranslator;
     private static ButtonManager buttonManager;
+    private static TicketManager ticketManager;
+    private static MySQLClient mySQLClient;
 
     public static void main(String[] args) throws IOException, ParseException {
         configurationManager = new ConfigurationManager("config.json");
@@ -69,20 +77,43 @@ public class Main {
 
         load();
 
+        mySQLClient = createMySQLClient();
+        SQLTable.loadTables();
+
+        try {
+            ticketManager = new TicketManager();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        addTicketTypes();
+
         placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
 
         startConsoleListener();
     }
 
     public static void reload() throws IOException, ParseException {
+        ticketManager.clear();
         discordBot.disableBot();
         buttonManager.clear();
         load();
+        addTicketTypes();
     }
 
     public static void exit() {
-        discordBot.disableBot();
+        if (discordBot != null)
+            discordBot.disableBot();
         System.exit(0);
+    }
+
+    private static MySQLClient createMySQLClient() {
+        ConfigSetting sql = ConfigSetting.SQL;
+        String host = (String) sql.getInnerValue("host");
+        String database = (String) sql.getInnerValue("database");
+        String user = (String) sql.getInnerValue("user");
+        String password = (String) sql.getInnerValue("password");
+        return new MySQLClient(host, database, user, password);
     }
 
     private static void load() throws IOException, ParseException {
@@ -98,6 +129,21 @@ public class Main {
 
         String muteRoleID = (String) ConfigSetting.MUTES.getInnerValue("muteRoleID");
         muteRole = muteRoleID != null && !muteRoleID.trim().isEmpty() ? discordBot.getGuild().getRoleById(muteRoleID) : null;
+    }
+
+    private static void addTicketTypes() {
+        try {
+            ResultSet resultSet = mySQLClient.getQuery("SELECT * FROM " + SQLTable.TICKET_TYPE_TABLE.getName() + ";");
+
+            while (resultSet.next()) {
+                String identifier = resultSet.getString(TicketType.DATABASE_IDENTIFIER_COLUMN.getName());
+                String buttonID = resultSet.getString(TicketType.DATABASE_BUTTON_ID_COLUMN.getName());
+                ticketManager.loadTicketType(identifier, buttonID);
+            }
+        } catch (SQLException e) {
+            System.err.println("Database Error!");
+            Main.exit();
+        }
     }
 
     private static Activity getActivity() {
@@ -157,6 +203,10 @@ public class Main {
         }
     }
 
+    public static TicketManager getTicketManager() {
+        return ticketManager;
+    }
+
     public static ButtonManager getButtonManager() {
         return buttonManager;
     }
@@ -171,5 +221,9 @@ public class Main {
 
     public static Role getMuteRole() {
         return muteRole;
+    }
+
+    public static MySQLClient getMySQLClient() {
+        return mySQLClient;
     }
 }

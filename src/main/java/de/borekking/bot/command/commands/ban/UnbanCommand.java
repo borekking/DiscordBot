@@ -6,7 +6,7 @@ import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
 import de.borekking.bot.util.discord.event.EventInformation;
-import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
+import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;

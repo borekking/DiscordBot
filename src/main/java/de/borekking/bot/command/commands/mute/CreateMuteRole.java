@@ -5,7 +5,7 @@ import de.borekking.bot.command.Command;
 import de.borekking.bot.util.discord.PermissionUtils;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
-import de.borekking.bot.util.discord.ChannelUtils;
+import de.borekking.bot.util.discord.channel.ChannelUtils;
 import de.borekking.bot.util.discord.role.RoleBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;

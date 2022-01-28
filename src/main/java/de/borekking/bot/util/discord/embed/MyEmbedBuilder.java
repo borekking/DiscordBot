@@ -1,8 +1,8 @@
 package de.borekking.bot.util.discord.embed;
 
 import de.borekking.bot.util.java.Checker;
-import de.borekking.bot.util.placeholder.PlaceholderTranslator;
-import de.borekking.bot.util.placeholder.Replaceable;
+import de.borekking.bot.placeholder.PlaceholderTranslator;
+import de.borekking.bot.placeholder.Replaceable;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;

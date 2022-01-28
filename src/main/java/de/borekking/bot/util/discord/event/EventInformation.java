@@ -4,7 +4,7 @@ import de.borekking.bot.Main;
 import de.borekking.bot.config.JSONAble;
 import de.borekking.bot.util.discord.embed.JSONEmbedUtil;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
-import de.borekking.bot.util.placeholder.PlaceholderTranslator;
+import de.borekking.bot.placeholder.PlaceholderTranslator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

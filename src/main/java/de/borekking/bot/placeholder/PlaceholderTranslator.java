@@ -1,7 +1,7 @@
-package de.borekking.bot.util.placeholder;
+package de.borekking.bot.placeholder;
 
-import de.borekking.bot.util.placeholder.placeholderTypes.GeneralPlaceholder;
-import de.borekking.bot.util.placeholder.placeholderTypes.UserPlaceholder;
+import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
+import de.borekking.bot.placeholder.placeholderTypes.UserPlaceholder;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;

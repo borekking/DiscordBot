@@ -1,4 +1,4 @@
-package de.borekking.bot.util.placeholder;
+package de.borekking.bot.placeholder;
 
 import net.dv8tion.jda.api.entities.User;
 

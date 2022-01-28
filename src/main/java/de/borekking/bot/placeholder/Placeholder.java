@@ -1,4 +1,4 @@
-package de.borekking.bot.util.placeholder;
+package de.borekking.bot.placeholder;
 
 public abstract class Placeholder<T> {
 

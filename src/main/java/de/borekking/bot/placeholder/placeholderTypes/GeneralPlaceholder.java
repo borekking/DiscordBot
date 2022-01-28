@@ -1,6 +1,6 @@
-package de.borekking.bot.util.placeholder.placeholderTypes;
+package de.borekking.bot.placeholder.placeholderTypes;
 
-import de.borekking.bot.util.placeholder.Placeholder;
+import de.borekking.bot.placeholder.Placeholder;
 
 import java.util.function.Supplier;
 

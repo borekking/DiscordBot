@@ -1,6 +1,6 @@
-package de.borekking.bot.util.placeholder.placeholderTypes;
+package de.borekking.bot.placeholder.placeholderTypes;
 
-import de.borekking.bot.util.placeholder.Placeholder;
+import de.borekking.bot.placeholder.Placeholder;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.function.Function;
