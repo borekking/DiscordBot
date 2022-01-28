@@ -11,7 +11,7 @@ public class JavaUtils {
     private JavaUtils() {
     }
 
-    public static <T> List<T> getAsList(T[] arr) {
+    public static <T> List<T> getAsList(T... arr) {
         if (arr == null || arr.length == 0) return new ArrayList<>();
         return Arrays.stream(arr).collect(Collectors.toList());
     }
