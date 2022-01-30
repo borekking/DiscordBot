@@ -1,5 +1,6 @@
 package de.borekking.bot;
 
+import de.borekking.bot.system.ban.BanHandler;
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
 import de.borekking.bot.placeholder.PlaceholderManager;
@@ -8,7 +9,7 @@ import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import de.borekking.bot.placeholder.placeholderTypes.UserPlaceholder;
 import de.borekking.bot.sql.MySQLClient;
 import de.borekking.bot.sql.SQLTable;
-import de.borekking.bot.system.ban.BanHandler;
+import de.borekking.bot.system.mute.MuteHandler;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.discord.button.ButtonManager;
 
@@ -68,6 +69,7 @@ public class Main {
     private static ButtonManager buttonManager;
     private static MySQLClient mySQLClient;
     private static BanHandler banHandler;
+    private static MuteHandler muteHandler;
     private static boolean reload; // If the system is reloading
 
     public static void main(String[] args) throws IOException, ParseException {
@@ -82,6 +84,7 @@ public class Main {
         placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
 
         banHandler = new BanHandler();
+        muteHandler = new MuteHandler(muteRole);
 
         startConsoleListener();
     }
@@ -190,6 +193,10 @@ public class Main {
                     break;
             }
         }
+    }
+
+    public static MuteHandler getMuteHandler() {
+        return muteHandler;
     }
 
     public static BanHandler getBanHandler() {

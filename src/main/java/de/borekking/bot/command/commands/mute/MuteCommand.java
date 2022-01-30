@@ -2,28 +2,24 @@ package de.borekking.bot.command.commands.mute;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
-import de.borekking.bot.config.ConfigSetting;
-import de.borekking.bot.util.discord.role.RoleUtils;
+import de.borekking.bot.system.InformationProvider;
+import de.borekking.bot.time.DurationUtils;
+import de.borekking.bot.time.TimeEnum;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
-import de.borekking.bot.util.discord.event.EventInformation;
-import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.json.simple.JSONObject;
 
 public class MuteCommand extends Command {
 
-    // TODO Add time
-
     public MuteCommand() {
-        super("mute", "Mute a user", new OptionData[] {
+        super("mute", "Mute a user", new OptionData[]{
                 new OptionData(OptionType.USER, "user", "User to mute", true),
+                new OptionData(OptionType.STRING, "length", "Ban's length (p for permanent, more info: /validtimes) ", true),
                 new OptionData(OptionType.STRING, "reason", "Reason of muting", false)
         }, Permission.ADMINISTRATOR);
     }
@@ -31,19 +27,29 @@ public class MuteCommand extends Command {
     @Override
     public void perform(SlashCommandEvent event) {
         // Get options
+        String lengthString = event.getOption("length").getAsString();
         Member targetMember = event.getOption("user").getAsMember();
         OptionMapping reasonOption = event.getOption("reason");
         String reason = reasonOption == null ? "No reason provided" : reasonOption.getAsString();
 
-        Role muteRole = Main.getMuteRole();
-
         // Check if user already is muted
-        if (RoleUtils.hasRoles(targetMember, muteRole)) {
+        if (Main.getMuteHandler().is(targetMember.getId())) {
             event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description(targetMember.getAsMention() + " is already muted.").build()).queue();
             return;
         }
 
-        if (!RoleUtils.addRoles(targetMember, muteRole)) {
+        // Get Mutes's length as millis
+        long length;
+        try {
+            length = DurationUtils.getValue(lengthString);
+        } catch (TimeEnum.IllegalDurationException e) {
+            event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("Not a valid Mute length: " + lengthString).build()).queue();
+            return;
+        }
+
+        boolean successfulMute = this.mute(length, targetMember, reason);
+
+        if (!successfulMute) {
             event.replyEmbeds(new MyEmbedBuilder(EmbedType.ERROR).description("Could not mute member " + targetMember.getAsMention() + "\n\n"
                     + "**Possible Reasons**:\n "
                     + "  - MuteRoleID is not valid\n"
@@ -52,13 +58,10 @@ public class MuteCommand extends Command {
             return;
         }
 
-        EventInformation information = EventInformation.getFromJSON((JSONObject) ConfigSetting.MUTES.getInnerValue("muteInformation"));
-        if (information == null) {
-            System.err.println("Error on SlashCommandEvent: EventInformation value of MUTES.muteInformation (\"mute.muteInformation\") is null! Please check your config.");
-        } else {
-            information.apply(targetMember, Main.getPlaceholderTranslator().getWithGeneralPH(new GeneralPlaceholder("%reason%", () -> reason)));
-        }
+        event.replyEmbeds(new MyEmbedBuilder(EmbedType.SUCCESS).description("Muted user " + targetMember.getAsMention() + " for " + lengthString + ".").build()).queue();
+    }
 
-        event.replyEmbeds(new MyEmbedBuilder(EmbedType.SUCCESS).description("Muted user " + targetMember.getAsMention() + ".").build()).queue();
+    private boolean mute(long length, Member member, String reason) {
+        return Main.getMuteHandler().use(new InformationProvider(length, member, reason));
     }
 }
