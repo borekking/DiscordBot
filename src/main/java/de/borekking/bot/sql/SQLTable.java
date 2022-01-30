@@ -1,7 +1,7 @@
 package de.borekking.bot.sql;
 
 import de.borekking.bot.Main;
-import de.borekking.bot.ban.BanHandler;
+import de.borekking.bot.ban.BanSQLHandler;
 import de.borekking.bot.util.sql.SQLColumn;
 
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ import java.util.StringJoiner;
 public enum SQLTable {
 
     // Ban
-    BAN_TABLE("bans",BanHandler.DATABASE_BAN_USER_COLUMN, BanHandler.DATABASE_BAN_DURATION_COLUMN, BanHandler.DATABASE_BAN_TIMESTAMP_COLUMN);
+    BAN_TABLE("bans", BanSQLHandler.DATABASE_BAN_USER_COLUMN, BanSQLHandler.DATABASE_BAN_DURATION_COLUMN, BanSQLHandler.DATABASE_BAN_TIMESTAMP_COLUMN);
 
     private final MySQLClient sqlClient;
     private final String name;

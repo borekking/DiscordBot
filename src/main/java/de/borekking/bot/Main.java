@@ -1,17 +1,16 @@
 package de.borekking.bot;
 
+import de.borekking.bot.ban.BanHandler;
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
-import de.borekking.bot.sql.MySQLClient;
-import de.borekking.bot.sql.SQLTable;
-import de.borekking.bot.ticket.TicketManager;
-import de.borekking.bot.ticket.TicketType;
-import de.borekking.bot.util.discord.Timestamp;
-import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.placeholder.PlaceholderManager;
 import de.borekking.bot.placeholder.PlaceholderTranslator;
 import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import de.borekking.bot.placeholder.placeholderTypes.UserPlaceholder;
+import de.borekking.bot.sql.MySQLClient;
+import de.borekking.bot.sql.SQLTable;
+import de.borekking.bot.util.discord.Timestamp;
+import de.borekking.bot.util.discord.button.ButtonManager;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Role;
@@ -21,8 +20,6 @@ import org.json.simple.parser.ParseException;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -43,8 +40,6 @@ public class Main {
      *        - Documented List for all Commands
      *        - * for all permissions
      *
-     *  TODAY:
-     *   - Ticket System (start)
      *   - Add Time to Muting and Baning
      *
      */
@@ -68,8 +63,9 @@ public class Main {
     private static DiscordBot discordBot;
     private static PlaceholderTranslator placeholderTranslator;
     private static ButtonManager buttonManager;
-    private static TicketManager ticketManager;
     private static MySQLClient mySQLClient;
+    private static BanHandler banHandler;
+    private static boolean reload; // If the system is reloading
 
     public static void main(String[] args) throws IOException, ParseException {
         configurationManager = new ConfigurationManager("config.json");
@@ -80,25 +76,25 @@ public class Main {
         mySQLClient = createMySQLClient();
         SQLTable.loadTables();
 
-        try {
-            ticketManager = new TicketManager();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        addTicketTypes();
-
         placeholderTranslator = new PlaceholderTranslator(getGeneralPlaceholderManager(), getMemberPlaceholderManager());
+
+        banHandler = new BanHandler();
 
         startConsoleListener();
     }
 
+    public static boolean isReload() {
+        return reload;
+    }
+
     public static void reload() throws IOException, ParseException {
-        ticketManager.clear();
+        reload = true;
+
         discordBot.disableBot();
         buttonManager.clear();
         load();
-        addTicketTypes();
+
+        reload = false;
     }
 
     public static void exit() {
@@ -129,21 +125,6 @@ public class Main {
 
         String muteRoleID = (String) ConfigSetting.MUTES.getInnerValue("muteRoleID");
         muteRole = muteRoleID != null && !muteRoleID.trim().isEmpty() ? discordBot.getGuild().getRoleById(muteRoleID) : null;
-    }
-
-    private static void addTicketTypes() {
-        try {
-            ResultSet resultSet = mySQLClient.getQuery("SELECT * FROM " + SQLTable.TICKET_TYPE_TABLE.getName() + ";");
-
-            while (resultSet.next()) {
-                String identifier = resultSet.getString(TicketType.DATABASE_IDENTIFIER_COLUMN.getName());
-                String buttonID = resultSet.getString(TicketType.DATABASE_BUTTON_ID_COLUMN.getName());
-                ticketManager.loadTicketType(identifier, buttonID);
-            }
-        } catch (SQLException e) {
-            System.err.println("Database Error!");
-            Main.exit();
-        }
     }
 
     private static Activity getActivity() {
@@ -203,8 +184,8 @@ public class Main {
         }
     }
 
-    public static TicketManager getTicketManager() {
-        return ticketManager;
+    public static BanHandler getBanHandler() {
+        return banHandler;
     }
 
     public static ButtonManager getButtonManager() {
