@@ -1,6 +1,5 @@
 package de.borekking.bot;
 
-import de.borekking.bot.system.ban.BanHandler;
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
 import de.borekking.bot.placeholder.PlaceholderManager;
@@ -9,11 +8,13 @@ import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import de.borekking.bot.placeholder.placeholderTypes.UserPlaceholder;
 import de.borekking.bot.sql.MySQLClient;
 import de.borekking.bot.sql.SQLTable;
+import de.borekking.bot.system.ban.BanHandler;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.discord.button.ButtonManager;
 
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 
@@ -85,10 +86,6 @@ public class Main {
         startConsoleListener();
     }
 
-    public static boolean isReload() {
-        return reload;
-    }
-
     public static void reload() throws IOException, ParseException {
         reload = true;
 
@@ -103,6 +100,15 @@ public class Main {
         if (discordBot != null)
             discordBot.disableBot();
         System.exit(0);
+    }
+
+    // Methode to get a Guild Member
+    public static Member getMember(String userID) {
+        return discordBot.getGuild().getMemberById(userID);
+    }
+
+    public static boolean isReload() {
+        return reload;
     }
 
     private static MySQLClient createMySQLClient() {
