@@ -2,7 +2,7 @@ package de.borekking.bot.command.commands;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
-import de.borekking.bot.util.discord.button.SuccessDangerButtonSender;
+import de.borekking.bot.util.discord.button.ConfirmationButtonSender;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -55,7 +55,7 @@ public class AnnouncementCommand extends Command {
         }, onCancel = (member1) ->
                 senderChannel.sendMessageEmbeds(new MyEmbedBuilder().color(Color.RED).title("Canceled").description("Canceled announcement.").build()).queue();
 
-        SuccessDangerButtonSender sender = new SuccessDangerButtonSender("SEND", onSuccess, "CANCEL", onCancel);
+        ConfirmationButtonSender sender = new ConfirmationButtonSender("SEND", onSuccess, "CANCEL", onCancel);
 
         // Reply to Event
         event.reply("This is your message:").addEmbeds(embed).addActionRow(sender.getButtons()).queue();

@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.interactions.components.Button;
 
 import java.util.function.Consumer;
 
-public class SuccessDangerButtonSender {
+public class ConfirmationButtonSender {
 
     // TODO Make n Buttons possible (ButtonActionSender)
 
@@ -15,7 +15,7 @@ public class SuccessDangerButtonSender {
     private final Button successButton, cancelButton;
     private final Consumer<Member> onSuccess, onCancel;
 
-    public SuccessDangerButtonSender(String successTitle, Consumer<Member> onSuccess, String dangerTitle, Consumer<Member> onCancel) {
+    public ConfirmationButtonSender(String successTitle, Consumer<Member> onSuccess, String dangerTitle, Consumer<Member> onCancel) {
         ButtonManager manager = Main.getButtonManager();
 
         // Get new unique id

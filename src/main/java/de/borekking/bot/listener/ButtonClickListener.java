@@ -1,12 +1,11 @@
 package de.borekking.bot.listener;
 
 import de.borekking.bot.Main;
-import de.borekking.bot.ticket.TicketManager;
-import de.borekking.bot.ticket.TicketType;
 import de.borekking.bot.util.discord.ButtonUtils;
 import de.borekking.bot.util.discord.button.ButtonIDCreator;
 import de.borekking.bot.util.discord.button.ButtonManager;
 import de.borekking.bot.util.discord.button.ButtonToActionStorage;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -30,7 +29,6 @@ public class ButtonClickListener extends ListenerAdapter {
         Message msg = event.getMessage();
 
         if (!(event.getChannel() instanceof TextChannel)) return;
-        TextChannel channel = event.getTextChannel();
 
         String prefix = ButtonIDCreator.getPrefixFromButton(button);
         long id = ButtonIDCreator.getIDFromButton(button);
@@ -52,27 +50,6 @@ public class ButtonClickListener extends ListenerAdapter {
                     deferEdit = true;
                 }
             }
-        } else {
-            // Check for Button for Ticket with TicketManager
-            TicketManager ticketManager = Main.getTicketManager();
-
-            // 1. ticket-type-opening-button
-            if (ticketManager.isOpeningButton(button)) {
-                TicketType ticketType = ticketManager.getTicketTypeFromOpeningButtonID(button.getId());
-                Main.getTicketManager().getTicketOpeningHandler().execute(ticketType, msg, member);
-
-                // 2. ticket-close-button
-            } else if (ticketManager.isCloseButton(button)) {
-                TicketType ticketType = ticketManager.getTicketTypeFromCloseButton(button);
-                ticketManager.getTicketCloseHandler().execute(ticketType, msg, member);
-
-                // 3. ticket-close-acceptation-button
-            } else if (ticketManager.isConfirmationButton(button)) {
-                TicketType ticketType = ticketManager.getTicketTypeFromConfirmationButton(button);
-                ticketManager.getTicketCloseConfirmationHandler().execute(ticketType, msg, member);
-            }
-
-            deferEdit = true;
         }
 
         // "close" event only if user was able to press button and button was saved in buttonAction
