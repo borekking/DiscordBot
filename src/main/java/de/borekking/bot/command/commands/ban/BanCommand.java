@@ -2,6 +2,7 @@ package de.borekking.bot.command.commands.ban;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
+import de.borekking.bot.system.ban.BanInformationProvider;
 import de.borekking.bot.time.DurationUtils;
 import de.borekking.bot.time.TimeEnum;
 import de.borekking.bot.util.discord.button.ConfirmationButtonSender;
@@ -91,7 +92,7 @@ public class BanCommand extends Command {
 
     // Unban the Member
     private boolean ban(Member member, String reason, long length, int delDays) {
-        return Main.getBanHandler().ban(member, reason, length, delDays);
+        return Main.getBanHandler().use(new BanInformationProvider(length, member, reason, delDays));
     }
 
     private ConfirmationButtonSender createConfirmationButton(Member member, TextChannel channel, String reason, long length, int delDays) {

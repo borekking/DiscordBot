@@ -1,7 +1,7 @@
 package de.borekking.bot.sql;
 
 import de.borekking.bot.Main;
-import de.borekking.bot.ban.BanSQLHandler;
+import de.borekking.bot.system.ban.BanSQLHandler;
 import de.borekking.bot.util.sql.SQLColumn;
 
 import java.sql.ResultSet;

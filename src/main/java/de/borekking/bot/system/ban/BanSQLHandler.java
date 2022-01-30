@@ -1,13 +1,14 @@
-package de.borekking.bot.ban;
+package de.borekking.bot.system.ban;
 
 import de.borekking.bot.Main;
 import de.borekking.bot.sql.SQLTable;
+import de.borekking.bot.system.SQLHandler;
 import de.borekking.bot.util.sql.SQLColumn;
 import de.borekking.bot.util.sql.SQLDataType;
 
 import java.sql.ResultSet;
 
-public class BanSQLHandler {
+public class BanSQLHandler implements SQLHandler {
 
     // Database
     // -> user:long, timestamp:long, duration:long
@@ -18,11 +19,13 @@ public class BanSQLHandler {
     public BanSQLHandler() {
     }
 
-    public ResultSet getSQLBans() {
+    @Override
+    public ResultSet get() {
         return Main.getMySQLClient().getQuery("SELECT * FROM " + SQLTable.BAN_TABLE.getName() + ";");
     }
 
-    public void initBan(String userID, long timestamp, long duration) {
+    @Override
+    public void init(String userID, long timestamp, long duration) {
         Main.getMySQLClient().update("INSERT INTO " + SQLTable.BAN_TABLE.getName() + " (" + SQLTable.BAN_TABLE.getColumns() + ") VALUES ('" + userID + "', " + duration + ", " + timestamp + ");");
     }
 
@@ -30,7 +33,8 @@ public class BanSQLHandler {
      * Might be replaced by Column "ignored" to be able to analyse Bans.
      *
      */
-    public void removeBan(String userID) {
+    @Override
+    public void remove(String userID) {
         Main.getMySQLClient().update("DELETE FROM " + SQLTable.BAN_TABLE.getName() + " WHERE " + DATABASE_BAN_USER_COLUMN + " = '" + userID + "';");
     }
 }

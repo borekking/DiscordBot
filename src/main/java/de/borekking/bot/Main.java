@@ -1,6 +1,6 @@
 package de.borekking.bot;
 
-import de.borekking.bot.ban.BanHandler;
+import de.borekking.bot.system.ban.BanHandler;
 import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.config.ConfigurationManager;
 import de.borekking.bot.placeholder.PlaceholderManager;
@@ -11,10 +11,12 @@ import de.borekking.bot.sql.MySQLClient;
 import de.borekking.bot.sql.SQLTable;
 import de.borekking.bot.util.discord.Timestamp;
 import de.borekking.bot.util.discord.button.ButtonManager;
+
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 

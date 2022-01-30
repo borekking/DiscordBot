@@ -33,6 +33,6 @@ public class UnbanCommand extends Command {
 
     // Unban the User
     private User unban(String userID, String reason) {
-        return Main.getBanHandler().unban(userID, reason);
+        return Main.getBanHandler().undo(userID, reason);
     }
 }
