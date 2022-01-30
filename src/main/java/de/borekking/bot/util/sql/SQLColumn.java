@@ -32,4 +32,9 @@ public class SQLColumn {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
