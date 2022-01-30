@@ -6,6 +6,7 @@ import de.borekking.bot.command.commands.ExitCommand;
 import de.borekking.bot.command.commands.HelpCommand;
 import de.borekking.bot.command.commands.ReloadCommand;
 import de.borekking.bot.command.commands.TestCommand;
+import de.borekking.bot.command.commands.ValidTimeCommand;
 import de.borekking.bot.command.commands.ban.BanCommand;
 import de.borekking.bot.command.commands.ban.UnbanCommand;
 import de.borekking.bot.command.commands.kick.KickCommand;
@@ -110,6 +111,7 @@ public class DiscordBot {
         list.add(new MuteCommand());
         list.add(new UnmuteCommand());
         list.add(new CreateMuteRole());
+        list.add(new ValidTimeCommand());
         return list;
     }
 
