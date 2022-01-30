@@ -4,6 +4,7 @@ import de.borekking.bot.Main;
 import de.borekking.bot.command.Command;
 import de.borekking.bot.util.discord.embed.EmbedType;
 import de.borekking.bot.util.discord.embed.MyEmbedBuilder;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
