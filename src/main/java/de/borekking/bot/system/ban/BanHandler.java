@@ -5,11 +5,15 @@ import de.borekking.bot.config.ConfigSetting;
 import de.borekking.bot.placeholder.placeholderTypes.GeneralPlaceholder;
 import de.borekking.bot.system.Handler;
 import de.borekking.bot.system.InformationProvider;
+import de.borekking.bot.system.mute.MuteSQLHandler;
 import de.borekking.bot.util.discord.event.EventInformation;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class BanHandler implements Handler {
 
@@ -26,11 +30,10 @@ public class BanHandler implements Handler {
         this.sqlHandler = new BanSQLHandler();
         this.guild = Main.getDiscordBot().getGuild();
 
-        BanChecker banChecker = new BanChecker(this, this.sqlHandler);
-
-        this.startChecker(banChecker);
+        new BanChecker(this, this.sqlHandler).startChecker("Ban is over");
     }
 
+    @Override
     public boolean use(InformationProvider provider) {
         if (!(provider instanceof BanInformationProvider)) {
             throw new IllegalArgumentException("Provider is not a valid subclass of InformationProvider!");
@@ -50,19 +53,7 @@ public class BanHandler implements Handler {
         return true;
     }
 
-    private void sendBanInformation(Member member, String reason) {
-        // Get EventInformation from Config
-        EventInformation information = ConfigSetting.BANNED_PLAYER_MESSAGE.getAsEventInformation();
-
-        if (information == null) {
-            System.err.println("Error on Banning: EventInformation value of BANNED_PLAYER_MESSAGE (\"banInformation\") is null! Please check your config.");
-            return;
-        }
-
-        information.apply(member, Main.getPlaceholderTranslator().getWithGeneralPH(new GeneralPlaceholder("%reason%", () -> reason)));
-    }
-
-     // userID: User-Tag or User-ID
+    // userID: User-Tag or User-ID
     @Override
     public User undo(String userID, String reason) {
         User user = Main.getDiscordBot().getGuild().retrieveBanList().complete().stream().map(Guild.Ban::getUser)
@@ -76,6 +67,24 @@ public class BanHandler implements Handler {
         return user;
     }
 
+    @Override
+    public boolean is(String userID) {
+        // Try to find a sql entry matching given userID
+        ResultSet resultSet = this.sqlHandler.get();
+
+        try {
+            while (resultSet.next()) {
+                String tempUserID = resultSet.getString(MuteSQLHandler.DATABASE_MUTE_USER_COLUMN.getName());
+
+                if (userID.equals(tempUserID)) return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     private void sendUnbanInformation(User user, String reason) {
         EventInformation information = ConfigSetting.UNBAN_PLAYER_MESSAGE.getAsEventInformation();
 
@@ -87,29 +96,15 @@ public class BanHandler implements Handler {
         information.apply(user, Main.getPlaceholderTranslator().getWithGeneralPH(new GeneralPlaceholder("%reason%", () -> reason)));
     }
 
-    private void startChecker(BanChecker banChecker) {
-        new BansThread(banChecker).start();
-    }
+    private void sendBanInformation(Member member, String reason) {
+        // Get EventInformation from Config
+        EventInformation information = ConfigSetting.BANNED_PLAYER_MESSAGE.getAsEventInformation();
 
-    private static class BansThread extends Thread {
-
-        private final BanChecker banChecker;
-
-        private BansThread(BanChecker banChecker) {
-            this.banChecker = banChecker;
+        if (information == null) {
+            System.err.println("Error on Banning: EventInformation value of BANNED_PLAYER_MESSAGE (\"banInformation\") is null! Please check your config.");
+            return;
         }
 
-        @Override
-        public void run() {
-            while (true) {
-                if (Main.isReload()) return;
-                this.banChecker.checkBans("Ban is over.");
-                try {
-                    Thread.sleep(1_000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        information.apply(member, Main.getPlaceholderTranslator().getWithGeneralPH(new GeneralPlaceholder("%reason%", () -> reason)));
     }
 }

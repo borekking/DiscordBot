@@ -1,5 +1,6 @@
 package de.borekking.bot.system;
 
+import de.borekking.bot.Main;
 import de.borekking.bot.system.ban.BanSQLHandler;
 
 import java.sql.ResultSet;
@@ -23,7 +24,36 @@ public abstract class Checker {
         this.sqlHandler = sqlHandler;
     }
 
-    public void checkBans(String defaultReason) {
+    public void startChecker(String defaultReason) {
+        new CheckerThread(this, defaultReason).start();
+    }
+
+    private static class CheckerThread extends Thread {
+
+        private final Checker banChecker;
+
+        private final String defaultReason;
+
+        private CheckerThread(Checker banChecker, String defaultReason) {
+            this.banChecker = banChecker;
+            this.defaultReason = defaultReason;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                if (Main.isReload()) return;
+                this.banChecker.checkBans(this.defaultReason);
+                try {
+                    Thread.sleep(1_000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void checkBans(String defaultReason) {
         ResultSet rs = this.sqlHandler.get();
 
         try {
@@ -43,7 +73,6 @@ public abstract class Checker {
             e.printStackTrace();
         }
     }
-
 
     protected abstract State getState(ResultSet rs) throws SQLException;
 }

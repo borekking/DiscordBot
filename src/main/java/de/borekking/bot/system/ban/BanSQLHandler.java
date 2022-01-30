@@ -21,20 +21,16 @@ public class BanSQLHandler implements SQLHandler {
 
     @Override
     public ResultSet get() {
-        return Main.getMySQLClient().getQuery("SELECT * FROM " + SQLTable.BAN_TABLE.getName() + ";");
+        return Main.getMySQLClient().getQuery("SELECT * FROM " + SQLTable.BANS_TABLE.getName() + ";");
     }
 
     @Override
     public void init(String userID, long timestamp, long duration) {
-        Main.getMySQLClient().update("INSERT INTO " + SQLTable.BAN_TABLE.getName() + " (" + SQLTable.BAN_TABLE.getColumns() + ") VALUES ('" + userID + "', " + duration + ", " + timestamp + ");");
+        Main.getMySQLClient().update("INSERT INTO " + SQLTable.BANS_TABLE.getName() + " (" + SQLTable.BANS_TABLE.getColumns() + ") VALUES ('" + userID + "', " + duration + ", " + timestamp + ");");
     }
 
-    /*
-     * Might be replaced by Column "ignored" to be able to analyse Bans.
-     *
-     */
     @Override
     public void remove(String userID) {
-        Main.getMySQLClient().update("DELETE FROM " + SQLTable.BAN_TABLE.getName() + " WHERE " + DATABASE_BAN_USER_COLUMN + " = '" + userID + "';");
+        Main.getMySQLClient().update("DELETE FROM " + SQLTable.BANS_TABLE.getName() + " WHERE " + DATABASE_BAN_USER_COLUMN + " = '" + userID + "';");
     }
 }

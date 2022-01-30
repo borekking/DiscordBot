@@ -7,4 +7,6 @@ public interface Handler {
     boolean use(InformationProvider provider);
 
     User undo(String userID, String s);
+
+    boolean is(String userID);
 }
